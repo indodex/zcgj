@@ -1,0 +1,110 @@
+{include file='common/top2' /}
+    <div style="padding-top: 100px;" class="py-center-list-3">
+        <div style="margin-top: 34px" class="py-list">
+            <ul style="height: 1030px;margin:0 auto;overflow: auto" class="py-all-list">
+                <div class="buy-in-eth clear">
+                    <div class="zi-line-middle"></div>
+                    <div class="buy-in-title">
+                        <p>{:lang('buy')} USDT</p>
+                        <p style="font-size: 13px;color: #666;">{:lang('order_number')}：{$datas.order}</p>
+                    </div>
+                </div>
+                <div style="padding-top: 40px" class="deal-num clear">
+                    <span>{:lang('quantity')}</span>
+                    <span>{:lang('amount')}</span>
+                    <span>{:lang('price')}</span>
+                </div>
+                <div class="deal-num clear">
+                    <span>{$datas.price * $datas.order_number}CNY</span>
+                    <span>{$datas.order_number}USDT</span>
+                    <span>{$datas.price}CNY</span>
+                </div>
+                <div style="width: 80%;" class="how-pay clear">
+                    <div class="how-pay-left">
+                        <div class="how-pay-one clear">
+                            <div>
+                                {switch name="datas.payment_method" }
+                                    {case value="0"}<img src="__IMG__/gerenzhongxin/yinhangka.png" alt="">{/case}
+                                    {case value="1"}<img src="__IMG__/gerenzhongxin/weixin.png" alt="">{/case}
+                                    {case value="2"}<img src="__IMG__/gerenzhongxin/zhifubao.png" alt="">{/case}
+                                {/switch}
+                                
+                            </div>
+                            <div class="bank-card-info">
+                                <p style="padding-top: 7px">{$datas.real_name}</p>
+                                {switch name="datas.payment_method" }
+                                    {case value="0"}<p>{$datas.bank_number}</p><p>{$datas.bank_name}</p>{/case}
+                                    {case value="1"}<p>{$datas.wechat_accout}</p>{/case}
+                                    {case value="2"}<p>{$datas.alipay_accout}</p>{/case}
+                                {/switch}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="how-pay clear">
+                    <div style="text-align: center" class="tool-pay-or">
+                        <span><button>{:lang('already_paid')}</button></span>
+                        <input type="text" name="id" hidden="" value="{$datas.id}">
+                        <span><button style="background: #8666FF" class="btn-submit">{eq name='lang' value='1'}Confirm payment{else/}确认收款{/eq}</button></span>
+                        <span class="look jiLao small-text"><a href="javascript:;">{eq name='lang' value='1'}View payment screenshot{else/}查看支付截图{/eq}</a></span>
+                    </div>
+                </div>
+
+                <div class="pay-remind">
+                    <div class="pay-remind-title">
+                        <span class="iconfont icon-tixing"></span>
+                        {:lang('transaction_reminder')}
+                    </div>
+                    <div class="pay-remind-list">
+                        <p>1.{:lang('notice_1')}</p>
+                        <p>2.{:lang('notice_2')}</p>
+                    </div>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="black-model"
+     style="width: 100%;height: 100%;top: 0;left: 0;background: rgba(0,0,0,0.25);z-index: 8;position: fixed;display:none;"></div>
+<div style="background: #fff;padding:0;padding-top:20px ; z-index: 9;" class="placard">
+    <img src="{$datas.voucher}" alt="">
+</div>
+{include file='common/bottom' /}
+<script>
+    $('.language').click(function () {
+        $('.choose-language').show(200)
+    })
+    $('.choose-language').mouseleave(function () {
+        $('.choose-language').hide(200)
+        return
+    }).click(function () {
+        $('.choose-language').hide(200)
+        return
+    })
+    $('.look').click(function () {
+        $('.placard').show(300)
+        $('.black-model').show()
+    })
+    $('.placard').click(function () {
+        $(this).hide(300)
+        $('.black-model').hide(300)
+    })
+    $('.black-model').click(function () {
+        $('.placard').hide(300)
+        $('.black-model').hide(300)
+    });
+    $('.btn-submit').click(function(){
+        var id = $("input[name=id]").val();
+        $.post("{:url('success_pay')}",{'id':id}).success(function(data) {
+          if (data.status === 0) {
+            layer.msg(data.info, {time: 1500});
+          } else {
+              layer.msg('交易成功', {time: 1500},function(){
+                location.href = "{:url('Currency/index')}";
+              });
+           }
+        });
+
+    });
+</script>

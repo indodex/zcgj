@@ -1,0 +1,26 @@
+{include file='common/top' /}
+    <div class="z-reg">
+        <div class="register-box">
+            <div class="about-us">
+                <div style="padding-top: 30px;" class="info-content-title">{eq name='lang' value='1'}{$newsinfo.en_title}{else/}{$newsinfo.title}{/eq}</div>
+                <div class="black-line"></div>
+                <div class="about-us-content">
+                    <p>{eq name='lang' value='1'}{$newsinfo.en_content}{else/}{$newsinfo.content}{/eq}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file='common/bottom' /}
+<script>
+    $('.language').click(function () {
+        $('.choose-language').show(200)
+    })
+    $('.choose-language').mouseleave(function () {
+        $('.choose-language').hide(200)
+        return
+    }).click(function () {
+        $('.choose-language').hide(200)
+        return
+    })
+</script>

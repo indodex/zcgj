@@ -1,0 +1,186 @@
+{include file='common/top2' /}
+<style type='text/css'>
+.red_color {color:red;}
+.green_color {color:green;}
+</style>
+<link rel="stylesheet" href="__CSS__/kline.css">
+    <div style="padding-top: 80px;" class="py-center-list-3">
+        <div style="background:#1e1e1e;" class="py-list">
+            <ul style="height: 1000px;margin:0 auto;overflow: auto;background:#1e1e1e;" class="py-all-list py-market">
+                <li class="py-market-title">
+                    <div id='cur_id' data='{$cur_id}'><span> </span><i>{$list.currencyinfo.name} {:lang('quotes')}</i></div>
+                </li>
+                <li class="py-sell-buy">
+                    <div class="small-py-sell-buy">
+                        <div class="clear">
+                            <span>{$list.currencyinfo.price_new}USDT ≈ {$list.currencyinfo.cny}CNY</span>
+                            <span>{$list.currencyinfo.max_price}USDT ≈ {$list.currencyinfo.max_price_cny}CNY</span>
+                            <span>{$list.currencyinfo.min_price}USDT ≈ {$list.currencyinfo.min_price_cny}CNY</span>
+                            <span>{$list.currencyinfo.buy_one}USDT ≈ {$list.currencyinfo.buy_one_cny}CNY</span>
+                            <span>{$list.currencyinfo.sell_one}USDT ≈ {$list.currencyinfo.sell_one_cny}CNY</span>
+                            <span>{$list.currencyinfo.volume}</span>
+                            <span>{$list.currencyinfo.day_rise_fall}%</span>
+                        </div>
+                        <div class="clear">
+                            <span>{:lang('latest_price')}</span>
+                            <span>{:lang('highest_price')}</span>
+                            <span>{:lang('lowest_price')}</span>
+                            <span>{:lang('buy_one_price')}</span>
+                            <span>{:lang('sell_one_price')}</span>
+                            <span>{:lang('volume')}</span>
+                            <span>{:lang('ups_downs')}</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="clear line-info2">
+                    <div id="line-content" class="line-content"></div>
+                </li>
+                <li class="clear">
+                    <div class="nwe-conclude">
+                        <div class="nwe-conclude-ship">{:lang('latest_deal')}</div>
+                        <ul class="nwe-conclude-one">
+                            <li class="clear title">
+                                <span>{:lang('time')}</span>
+                                <span>{:lang('price')}(USDT)</span>
+                                <span>{:lang('amount')}</span>
+                            </li>
+                            <div id='new_deal'>
+                            {volist name='new_deal' id='vo'}
+	                            <li class="clear">
+	                                <span>{$vo.end_date}</span>
+	                                <span class='{$vo.text_color}'>{$vo.price}</span>
+	                                <span>{$vo.number}</span>
+	                            </li>
+	                        {/volist}
+	                        </div>
+                        </ul>
+                    </div>
+                    <div class="buy-shell-plate">
+                        <div class="nwe-conclude-ship">{:lang('latest_deal')}</div>
+                        <ul class="buy-shell-plate-one" style='float:left;width:50%;'>
+                            <li class="clear title">
+                                <span>{:lang('equivalent')}(USDT)</span>
+                                <span>{:lang('purchase_volume')}</span>
+                                <span>{:lang('buying_price')}(USDT)</span>
+                            </li>
+                            <div id='new_deal2_buy'>
+                            {volist name='new_deal2.buy' id='vo'}
+                            	<li class="clear">
+	                                <span>{$vo.all_price}</span>
+	                                <span>{$vo.number}</span>
+	                                <span class="buy-price">{$vo.price}</span>
+		                        </li>
+                            {/volist}
+                            </div>
+                        </ul>
+                        <ul class="buy-shell-plate-one" style='float:left;width:50%;'>
+                            <li class="clear title">
+                                <span>{:lang('equivalent')}(USDT)</span>
+                                <span>{:lang('sell_volume')}</span>
+                                <span>{:lang('sell_price')}(USDT)</span>
+                            </li>
+                            <div id='new_deal2_sell'>
+                            {volist name='new_deal2.sell' id='vo'}
+                            	<li class="clear">
+	                                <span>{$vo.all_price}</span>
+	                                <span>{$vo.number}</span>
+	                                <span class="sell-price">{$vo.price}</span>
+		                        </li>
+                            {/volist}
+                            </div>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{include file='common/bottom' /}
+<script type="text/javascript" src="__JS__/kline.js"></script>
+<script type="text/javascript" src="__JS__/jquery.mousewheel.js"></script>
+<!--<script type="text/javascript" src="__JS__/require.js"></script>-->
+<script type="text/javascript" src="__JS__/sockjs.js"></script>
+<script type="text/javascript" src="__JS__/stomp.js"></script>
+<script>
+    var cur_id = $('#cur_id').attr('data');
+    var kline = new Kline({
+        element: "#line-content",
+        width: 1200,
+        height: 300,
+        theme: 'dark', // light/dark
+        language: 'zh-cn', // zh-cn/en-us/zh-tw
+        ranges: ["1w", "1d", "1h", "30m", "15m", "5m", "1m", "line"],
+        symbol: "coin5/coin4",
+        symbolName: "COIN5_COIN4",
+        type: "poll", // poll/socket
+        url: "http://www.nebula.com/index/trade/kline?cur_id=" + cur_id,
+        limit: 1000,
+        intervalTime: 5000,
+        debug: true,
+        showTrade: true,
+        onResize: function(width, height) {
+            console.log("chart resized: " + width + " " + height);
+        }
+    });
+    kline.draw();
+    kline.toggleTrade();
+    // kline.setTheme("light")
+    // kline.setTheme("dark")
+    //kline.setLanguage('en-us')
+    
+    new_deal();
+    new_deal2();
+    // 设置执行时间
+    setInterval(function(){
+    	new_deal();
+    	new_deal2();
+    },3000);
+    
+    // 左侧最新成交
+    function new_deal(){
+    	$.ajax({
+    		type:'post',
+    		url:'{:url("new_deal")}',
+    		data:{cur_id:cur_id},
+    		success:function(ret){
+    			var deal = '';
+    			if(ret.code === 1){
+    				$.each(ret.data,function(k,v){
+    					deal += '<li class="clear"><span>'+v.done_date+'</span>';
+	                	deal += '<span class='+v.text_color+'>'+v.price+'</span>';
+	                	deal += '<span>'+v.order_number+'</span></li>';
+    				})
+    			}
+    			$('#new_deal').html(deal);
+    		}
+    	});
+    }
+    
+    // 右侧最新成交
+    function new_deal2(){
+    	$.ajax({
+    		type:'post',
+    		url:'{:url("new_deal2")}',
+    		data:{cur_id:cur_id},
+    		success:function(ret){
+    			var deal_buy = '';
+    			var deal_sell = '';
+    			if(ret.code === 1){
+    				$.each(ret.data.buy,function(k,v){
+    					deal_buy += '<li class="clear"><span>'+v.all_price+'</span>';
+	                    deal_buy += '<span>'+v.order_number+'</span>';
+	                    deal_buy += '<span class="buy-price">'+v.price+'</span></li>';
+    				});
+    				$.each(ret.data.sell,function(k,v){
+    					deal_sell += '<li class="clear"><span>'+v.all_price+'</span>';
+	                    deal_sell += '<span>'+v.order_number+'</span>';
+	                    deal_sell += '<span class="sell-price">'+v.price+'</span></li>';
+    				})
+    				console.log(deal_sell);
+    			}
+    			$('#new_deal2_buy').html(deal_buy);
+    			$('#new_deal2_sell').html(deal_sell);
+    		}
+    	});
+    }
+</script>

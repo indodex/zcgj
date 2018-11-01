@@ -1,0 +1,554 @@
+{include file='common/top2' /}
+<style type='text/css'>
+.pointer {cursor:pointer;}
+.trade_input {text-indent:0.5em;}
+.increase {color:red;}
+.lower {color:green;}
+</style>
+<link rel="stylesheet" href="__CSS__/kline.css">
+    <div style="padding-top: 100px;padding-bottom: 8px" class="py-center-list-3">
+        <div style="margin-top: 18px;background: #1e1e1e" class="py-list">
+            <ul style="height: 1154px;margin:0 auto;overflow: hidden;background: #1e1e1e" class="py-all-list py-market">
+                <li class="py-market-title">
+                    <div id='cur_id' data='{$cur_id}'><span> </span><i>{$list.currencyinfo.name} {:lang('quotes')}</i></div>
+                </li>
+                <li class="py-sell-buy">
+                    <div class="small-py-sell-buy">
+                        <div class="clear">
+                            <span id='price_new'></span>
+                            <span id='max_price'></span>
+                            <span id='min_price'></span>
+                            <span id='buy_one'></span>
+                            <span id='sell_one'></span>
+                            <span id='volume'></span>
+                            <span class='{$list.currencyinfo.day_rise_fall_color}' id='day_rise_fall'></span>
+                        </div>
+                        <div class="clear">
+                            <span>{:lang('latest_price')}</span>
+                            <span>{:lang('highest_price')}</span>
+                            <span>{:lang('lowest_price')}</span>
+                            <span>{:lang('buy_one_price')}</span>
+                            <span>{:lang('sell_one_price')}</span>
+                            <span>{:lang('volume')}</span>
+                            <span>{:lang('ups_downs')}</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="clear line-info2">
+                    <div id="line-content" class="line-content"></div>
+                </li>
+                <li class="entrust-information clear">
+                    <div class="entrust-left">
+                        <div class="t">{:lang('delegation_info')}</div>
+                        <ul class="nwe-conclude-one entrust-left-list">
+                            <li class="clear title" {eq name='lang' value='1'}style='line-height:20px;'{else/}{/eq}>
+                                <span>{:lang('types')}</span>
+                                <span>{:lang('commission_price')}(USDT)</span>
+                                <span>{:lang('number_orders')}({$cur_name})</span>
+                            </li>
+                            <div class='kline_data_up' style='height:46%;'>
+                            
+                            </div>
+                            <div class='kline_data_down' style='height:46%;border-top:1px solid #5d5d5d'>
+                            
+                            </div>
+                        </ul>
+
+                        <div class="t">{:lang('my_latest_deal')}</div>
+                        <ul class="nwe-conclude-one entrust-right-list-top">
+                            <li class="clear title" {eq name='lang' value='1'}style='line-height:20px;'{else/}{/eq}>
+                                <span>{:lang('transaction_time')}</span>
+                                <span>{:lang('types')}</span>
+                                <span>{:lang('deal_price')}</span>
+                                <span>{:lang('number_transactions')}</span>
+                                <span>{:lang('turnover')}</span>
+                            </li>
+                            <div id='my_trade'>
+                            {volist name="tradelist.my_trade" id="vo"}
+                            <li class="clear">
+                                <span style="line-height:20px;">{$vo.done_time|date="Y-m-d H:i:s",###}</span>
+                                <span>{$vo.order_type}</span>
+                                <span>{$vo.price}</span>
+                                <span>{$vo.order_number}</span>
+                                <span>{$vo.order_number * $vo.price}</span>
+                            </li>
+                            {/volist}
+                            </div>
+                        </ul>
+                        
+                    </div>
+                    
+                    <div class="entrust-right">
+                        <div>
+                            <div class="lucky-list">
+                                <div class="small-py-sell-buy my-eth">
+	                                <div class="clear">
+	                                    <span>{:lang('my_usdt')}</span>
+	                                    <span>{:lang('total_assets')}：<b id='total_cny'>{$list.total} ≈ {$list.cny}CNY</b></span>
+	                                    <span>{:lang('available')}：<br /><b id='use_eth'>{$list.use_eth}</b></span>
+	                                    <span>{:lang('frozen')}：<br /><b id='frozen_eth'>{$list.frozen_eth}</b></span>
+	                                </div>
+	                                <div class="clear">
+	                                    <span>{:lang('my')}{$list.currencyinfo.name}{eq name='lang' value='1'}{else/}币{/eq}</span>
+	                                    <span>{:lang('total_assets')}：<b id='total_other'>{$list.use_cur + $list.frozen_cur}</b></span>
+	                                    <span>{:lang('available')}：<b id='use_cur'>{$list.use_cur}</b></span>
+	                                    <span>{:lang('frozen')}：<b id='frozen_cur'>{$list.frozen_cur}</b></span>
+	                                </div>
+	                                <span class="my-eth1" hidden="">{$list.use_eth}</span>
+	                                <span class="my-cur" hidden="">{$list.use_cur}</span>
+	                            </div>
+                            </div>
+
+                            <div class="clear">
+	                            <div class="buy-lucky">
+	                                <div class="t">{:lang('buy')}{$list.currencyinfo.name}{eq name='lang' value='1'}{else/}币{/eq}</div>
+	                                <ul class="buy-lucky-list">
+	                                    <li>
+	                                        <span class="buy-lucky-list-before">{:lang('bast_buy')}</span>
+	                                        <span class="buy-price">{$list.currencyinfo.sell_price}USDT≈{$list.currencyinfo.sell_price_cny}CNY</span>
+	                                    </li>
+	                                    <li>
+	                                        <span class="buy-lucky-list-before">{:lang('buy_unit_price')}</span>
+	                                        <span><input id='buy_price' class="trade_input price_input_buy" name="buy_price" type="text" /></span>
+	                                    </li>
+	                                    <li>
+	                                        <span class="buy-lucky-list-before">{:lang('maximum_buy')}</span>
+	                                        <span class="buy-price max-buy">0.0000</span>
+	                                    </li>
+	                                    <li>
+	                                        <span class="buy-lucky-list-before">{:lang('buy_quantity')}</span>
+	                                        <span><input id='buy_number' class="trade_input price_input_buy" name="buy_number" type="text"/></span>
+	                                    </li>
+	                                    </li>
+	                                    <li>
+	                                        <span class="buy-lucky-list-before">{:lang('tpwd')}</span>
+	                                        <span><input id='buy_pwd' class="trade_input" type="password" name="buy_pwd"/></span>
+	                                    </li>
+	                                    <li>
+	                                        <span class="buy-lucky-list-before">{:lang('service')}</span>
+	                                        <span class="price_span_buy1">0.0000 USDT</span>
+	                                    </li>
+	                                    <li>
+	                                        <span class="buy-lucky-list-before">{:lang('transaction_amount')}</span>
+	                                        <span class="price_span_buy2">0.0000 USDT</span>
+	                                    </li>
+	                                    <li style="text-align: center">
+	                                        <button class="buy_cur_btn1">{:lang('buy_now')}</button>
+	                                    </li>
+	                                    <!--<li style="line-height: 20px;padding-top: 8px;color:rgba(134,102,255,0.86)">
+	                                        <div>温馨提示</div>
+	                                        <div>数字货币交易具有极高的风险，投资需谨慎！</div>
+	                                    </li>-->
+	                                </ul>
+	                            </div>
+	                            <div class="sell-lucky">
+	                                <div class="t">{:lang('sell')}{$list.currencyinfo.name}{eq name='lang' value='1'}{else/}币{/eq}</div>
+	                                <ul class="buy-lucky-list">
+	                                    <li>
+	                                        <span class="buy-lucky-list-before">{:lang('best_sell')}</span>
+	                                        <span class="sell-price">{$list.currencyinfo.buy_price}USDT≈{$list.currencyinfo.buy_price_cny}CNY</span>
+	                                    </li>
+	                                    <li>
+	                                        <span class="buy-lucky-list-before">{:lang('Selling_unit_price')}</span>
+	                                        <span><input id='sell_price' class="trade_input price_input_sell" name="sell_price"/></span>
+	                                    </li>
+	                                    <li>
+	                                        <span class="buy-lucky-list-before">{:lang('maximum_sale')}</span>
+	                                        <span class="sell-price max-sell">0.0000</span>
+	                                    </li>
+	                                    <li>
+	                                        <span class="buy-lucky-list-before">{:lang('sell_quantity')}</span>
+	                                        <span><input id='sell_number' class="trade_input price_input_sell" name="sell_number"/></li>
+	                                    </li>
+	                                    <li>
+	                                        <span class="buy-lucky-list-before">{:lang('tpwd')}</span>
+	                                        <span><input id='sell_pwd' class="trade_input" name="sell_pwd" type="password"/></span>
+	                                    </li>
+	                                    <li>
+	                                        <span class="buy-lucky-list-before">{:lang('service')}</span>
+	                                        <span class="price_span_sell1">0.0000 USDT</span>
+	                                    </li>
+	                                    <li>
+	                                        <span class="buy-lucky-list-before">{:lang('transaction_amount')}</span>
+	                                        <span class="price_span_sell2">0.0000 USDT</span>
+	                                    </li>
+	                                    <li style="text-align: center">
+	                                        <button class="sell_cur_btn1">{:lang('sell_now')}</button>
+	                                    </li>
+	                                    <!--<li style="line-height: 20px;padding-top: 8px;color:rgba(134,102,255,0.86)">
+	                                        <div>温馨提示</div>
+	                                        <div>数字货币交易具有极高的风险，投资需谨慎！</div>
+	                                    </li>-->
+	                                </ul>
+	                            </div>
+	                        </div>
+                        </div>
+                        <div>
+                            <div class="t">{:lang('my_commission')}</div>
+                            <ul class="nwe-conclude-one entrust-right-list-bottom">
+                                <li class="clear title">
+                                    <span>{:lang('types')}</span>
+                                    <span>{:lang('commission_price')}</span>
+                                    <span>{:lang('number_orders')}</span>
+                                    <span>{:lang('operating')}</span>
+                                </li>
+                                <div id='trade'>
+                                {volist name="tradelist.trade" id="vo"}
+                                <li class="clear">
+                                    <span>{eq name="vo.trade_type" value="1"}{:lang('sell')}{else/}{:lang('buy')}{/eq}</span>
+                                    <span>{$vo.price}</span>
+                                    <span>{$vo.number}</span>
+                                    <span class="jiLao repeal-list"><a href="javascript:;" class="revoke" data-id="{$vo.id}">{:lang('cancel')}</a></span>
+                                </li>
+                                {/volist}
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="find-reg-success repeal-z">
+    <div style="background: rgba(0,0,0,0.4)" class="model"></div>
+    <div class="repeal">
+       <div class="true-repeal-text">{:lang('confirm_commission')}？</div>
+       <div class="true-repeal"><button>{:lang('submit')}</button></div>
+       <span class="iconfont icon-guanbi"></span>
+    </div>
+</div>
+{include file='common/bottom' /}
+<script type="text/javascript" src="__JS__/kline.js"></script>
+<script type="text/javascript" src="__JS__/jquery.mousewheel.js"></script>
+<!--<script type="text/javascript" src="__JS__/require.js"></script>-->
+<script type="text/javascript" src="__JS__/sockjs.js"></script>
+<script type="text/javascript" src="__JS__/stomp.js"></script>
+<script>
+	
+	var cur_id = $('#cur_id').attr('data');
+    var kline = new Kline({
+        element: "#line-content",
+        width: 1200,
+        height: 300,
+        theme: 'dark', // light/dark
+        language: 'zh-cn', // zh-cn/en-us/zh-tw
+        ranges: ["1w", "1d", "1h", "30m", "15m", "5m", "1m", "line"],
+        symbol: "coin5/coin4",
+        symbolName: "COIN5_COIN4",
+        type: "poll", // poll/socket
+        url: "http://www.nebula.com/index/trade/kline?cur_id=" + cur_id,
+        limit: 1000,
+        intervalTime: 5000,
+        debug: true,
+        showTrade: true,
+        onResize: function(width, height) {
+            //console.log("chart resized: " + width + " " + height);
+        }
+    });
+    kline.draw();
+    kline.toggleTrade();
+    // kline.setTheme("light")
+    // kline.setTheme("dark")
+    //kline.setLanguage('en-us')
+	
+//	$('#chart_toolbar_periods_horz li').click(function(){
+//		var id = $(this).attr('id');
+//		switch(id){
+//			case 'chart_period_1m_h':
+//				alert(2);
+//				break;
+//			case 'chart_period_line_h':
+//				alert(3);
+//				break;
+//		}
+//	});
+	
+	
+    // 设置
+    my_cur_detail();
+    get_all_trade();
+    tradelist();
+    setInterval(function() {
+    	my_cur_detail();	// 币种行情/我的usdt币/我的其它币种
+    	get_all_trade();	// 委托信息
+    	tradelist();	// 我的最新成交/我的委托
+    }, 4000);
+    
+    // 委托信息
+    function get_all_trade(){
+		$.post('{:url("all_trade")}',{'cur_id':cur_id}).success(function(ret){
+	    	if(ret.status === 0){
+	    		
+	    	}else{
+	    		let sell = '';
+	        	$.each(ret.sell,function(k,v){
+	        		if(ret.sell.length === 5){
+	        			i = 6;i--;
+		        		sell += '<li class="clear"><span class="sell-price">'+ v.trade_type_text + Math.abs(k-i) +'</span><span class="sell-price">'+ v.price +'</span><span>'+ v.number +'</span></li>';
+	        		}else{
+	        			switch(ret.sell.length){
+	        				case 1:
+			        			i = k-ret.sell.length;
+			        			sell += '<li class="clear" style="position:relative;bottom:-140px"><span class="sell-price">'+ v.trade_type_text + Math.abs(i) +'</span><span class="sell-price">'+ v.price +'</span><span>'+ v.number +'</span></li>';
+				        		break;
+				        	case 2:
+				        		i = k-ret.sell.length;
+			        			sell += '<li class="clear" style="position:relative;bottom:-105px"><span class="sell-price">'+ v.trade_type_text + Math.abs(i) +'</span><span class="sell-price">'+ v.price +'</span><span>'+ v.number +'</span></li>';
+				        		break;
+				        	case 3:
+				        		i = k-ret.sell.length;
+			        			sell += '<li class="clear" style="position:relative;bottom:-70px"><span class="sell-price">'+ v.trade_type_text + Math.abs(i) +'</span><span class="sell-price">'+ v.price +'</span><span>'+ v.number +'</span></li>';
+				        		break;
+				        	case 4:
+				        		i = k-ret.sell.length;
+			        			sell += '<li class="clear" style="position:relative;bottom:-35px"><span class="sell-price">'+ v.trade_type_text + Math.abs(i) +'</span><span class="sell-price">'+ v.price +'</span><span>'+ v.number +'</span></li>';
+				        		break;
+			        	}
+	        		}
+	        	})
+	        	$('.kline_data_up').html(sell)
+	        	let buy = '';
+	        	$.each(ret.buy,function(k,v){
+	        		buy +=
+	            	'<li class="clear"><span class="buy-price">'+ v.trade_type_text + (k+1) +'</span><span  class="buy-price">'+ v.price +'</span><span>'+ v.number +'</span></li>';
+	    		})
+	        	$('.kline_data_down').html(buy)
+	      }
+	    });
+    }
+	
+	// 币种行情/我的usdt币/我的其它币种
+	function my_cur_detail(){
+		$.ajax({
+			type:'post',
+			url:'{:url("my_cur_detail")}',
+			data:{cur_id:cur_id},
+			success:function(ret){
+				// 币种行情
+				$('#price_new').html(ret.currencyinfo.price_new+'USDT ≈ '+ret.currencyinfo.price_new_cny+'CNY');	// 最新价
+				$('#max_price').html(ret.currencyinfo.max_price+'USDT ≈ '+ret.currencyinfo.max_price_cny+'CNY');	// 最高价
+				$('#min_price').html(ret.currencyinfo.min_price+'USDT ≈ '+ret.currencyinfo.min_price_cny+'CNY');	// 最低价
+				$('#buy_one').html(ret.currencyinfo.buy_one+'USDT ≈ '+ret.currencyinfo.buy_one_cny+'CNY');	// 买一价
+				$('#sell_one').html(ret.currencyinfo.sell_one+'USDT ≈ '+ret.currencyinfo.sell_one_cny+'CNY');	// 卖一价
+				$('#volume').html(ret.currencyinfo.volume);	// 成效量
+				$('#day_rise_fall').html(ret.currencyinfo.day_rise_fall+'%');	// 日涨跌
+				// 我的usdt币/我的其它币种
+				$('#total_cny').html(ret.total+' ≈ '+ret.cny+'CNY');	// USDT总资产(约等于CNY)
+				$('#use_eth').html(ret.use_eth);						// USDT可用
+				$('#frozen_eth').html(ret.frozen_eth);					// USDT冻结
+				$('#total_other').html(Number(ret.use_cur) + Number(ret.frozen_cur));	// 其它币种 总资产
+				$('#use_cur').html(ret.use_cur);						// 其它币种 可用
+				$('#frozen_cur').html(ret.frozen_cur);					// 其它币种 冻结
+			}
+		});
+	}
+	
+	// 我的最新成交/我的委托
+	function tradelist(){
+		$.ajax({
+			type:'post',
+			url:'{:url("tradelist")}',
+			data:{cur_id:cur_id},
+			success:function(ret){
+				var newTrade = '';
+				var myTrade = '';
+				$.each(ret.my_trade,function(k,v){
+					newTrade += '<li class="clear">';
+	                newTrade += '<span style="line-height:20px;">'+v.done_date+'</span>';
+	                newTrade += '<span>'+v.order_type+'</span>';
+	                newTrade += '<span>'+v.price+'</span>';
+	                newTrade += '<span>'+v.order_number+'</span>';
+	                newTrade += '<span>'+v.turnover+'</span>';
+	                newTrade += '</li>';
+				});
+				$.each(ret.trade,function(k,v){
+					myTrade += '<li class="clear">';
+                    myTrade += '<span>{eq name="'+v.trade_type+'" value="1"}{:lang("sell")}{else/}{:lang("buy")}{/eq}</span>';
+                    myTrade += '<span>'+v.price+'</span>';
+                    myTrade += '<span>'+v.number+'</span>';
+                    myTrade += '<span class="jiLao repeal-list"><a class="pointer" onclick="cancel('+v.id+')">{:lang("cancel")}</a></span>';
+                    myTrade += '</li>';
+				})
+				$('#my_trade').html(newTrade);	// 我的最新成交
+				$('#trade').html(myTrade);		// 我的委托
+			}
+		});
+	}
+	
+    $('.repeal-list').click(function () {
+        $('.repeal-z').show(300)
+        $('body').css('overflow','hidden')
+    })
+    $('.icon-guanbi').click(function () {
+        $('.repeal-z').hide(300)
+        $('body').removeAttr('style')
+    })
+
+    $('.language').click(function () {
+        $('.choose-language').show(200)
+    })
+    $('.choose-language').mouseleave(function () {
+        $('.choose-language').hide(200)
+        return
+    }).click(function () {
+        $('.choose-language').hide(200)
+        return
+    })
+</script><script type="text/javascript">
+	// 判断买入单价输入格式
+	$('#buy_price,#sell_price').on('input',function(){
+		$(this).val($(this).val().match(/\d+\.?\d{0,4}/));
+	});
+	// 判断买入数量输入格式
+	$('#buy_number,#sell_number').on('input',function(){
+		$(this).val($(this).val().match(/\d+\.?\d{0,2}/));
+	});
+	
+    $('.price_input_buy').change(function(){
+        var price = $('input[name="buy_price"]').val();
+        var number = $('input[name="buy_number"]').val();
+        if(price == ''){
+            var price = 0;
+        }
+        if(number == ''){
+            var number = 0;
+        }
+        var allmoney = price * number;
+        var allmoney_service_charge = allmoney*{:config('BUY_SERVICE_CHARGE')};
+        allmoney_service_charge = allmoney_service_charge.toFixed(4);
+        $('.price_span_buy1').html(allmoney_service_charge+' USDT');
+        allmoney = allmoney.toFixed(4);
+        $('.price_span_buy2').html(allmoney+' USDT');
+        var  my_eth = $('.my-eth1').text();
+        var max_buy = my_eth/price;
+        max_buy = max_buy.toFixed(4);
+        $('.max-buy').html(max_buy);
+        max_buy = Number(max_buy);
+        number = Number(number);
+        if(max_buy < number){
+            layer.msg('{eq name="lang" value="1"}Exceed quantity{else/}超出数量{/eq}', {time: 1500},function(){
+                $('input[name="buy_number"]').val("");
+            });
+        }
+        $('#buy_pwd').val('');
+    });
+
+    $('.price_input_sell').change(function(){
+        var price = $('input[name="sell_price"]').val();
+        var number = $('input[name="sell_number"]').val();
+        if(price == ''){
+            var price = 0;
+        }
+        if(number == ''){
+            var number = 0;
+        }
+        var allmoney = price * number;
+        var allmoney_service_charge = allmoney*{:config('SELL_SERVICE_CHARGE')};
+        allmoney_service_charge = allmoney_service_charge.toFixed(4);
+        $('.price_span_sell1').html(allmoney_service_charge+' USDT');
+        allmoney = allmoney.toFixed(4);
+        $('.price_span_sell2').html(allmoney+' USDT');
+        var my_cur = $('.my-cur').text();
+        var max_sell = {$list.use_cur};
+        max_sell = max_sell.toFixed(4);
+        $('.max-sell').html(max_sell);
+        max_sell = Number(max_sell);
+        number = Number(number);
+        // 判断数量是否超出
+        if(max_sell < number){
+            layer.msg('{eq name="lang" value="1"}Exceed quantity{else/}超出数量{/eq}', {time: 1500},function(){
+                $('input[name="sell_number"]').val("");
+            });
+        }
+        $('#sell_pwd').val('');
+    });
+    $('.buy_cur_btn1').click(function(){
+        var buy_price = $('input[name="buy_price"]').val();
+        var buy_number = $('input[name="buy_number"]').val();
+        var buy_pwd = $('input[name="buy_pwd"]').val();
+        $.post("{:url('sell')}",{'price':buy_price,'number':buy_number,'pwd':buy_pwd,'cur_id':{$list['currencyinfo']['id']},'type':2}).success(function(data) {
+          if (data.status === 0) {
+            layer.msg({eq name='lang' value='1'}data.en_info{else/}data.info{/eq}, {time: 1500});
+          } else {
+            layer.msg('{eq name="lang" value="1"}Hanging successfully{else/}挂买成功{/eq}', {time: 1500},function(){
+                get_all_trade();
+    			tradelist();
+    			$('#buy_price').val('');
+    			$('#buy_number').val('');
+    			$('#buy_pwd').val('');
+            });
+
+          }
+        });
+    });
+    $('.sell_cur_btn1').click(function(){
+        var sell_price = $('input[name="sell_price"]').val();
+        var sell_number = $('input[name="sell_number"]').val();
+        var sell_pwd = $('input[name="sell_pwd"]').val();
+        $.post("{:url('sell')}",{'price':sell_price,'number':sell_number,'pwd':sell_pwd,'cur_id':{$list['currencyinfo']['id']},'type':1}).success(function(data) {
+          if (data.status === 0) {
+            layer.msg({eq name='lang' value='1'}data.en_info{else/}data.info{/eq}, {time: 1500});
+          } else {
+            layer.msg('{eq name="lang" value="1"}Hang up successfully{else/}挂卖成功{/eq}', {time: 1500},function(){
+                get_all_trade();
+    			tradelist();
+    			$('#sell_price').val('');
+    			$('#sell_number').val('');
+    			$('#sell_pwd').val('');
+            });
+
+          }
+        });
+    });
+	
+	// 取消委托
+	function cancel(id){
+//  $(".revoke").click(function () {
+//      var id = $(this).data('id');
+        layer.confirm('{eq name="lang" value="1"}Confirm to cancel the commission{else/}确认撤销该委托{/eq}？', {
+            title: "{eq name='lang' value='1'}Confirm{else/}确认{/eq}",
+            btn: ['{eq name="lang" value="1"}Yes{else/}确认{/eq}', '{eq name="lang" value"1"}No{else/}取消{/eq}'],
+        }, function () {
+              $.post("{:url('entrust')}",{'id':id}).success(function(data) {
+                if (data.status === 0) {
+                  layer.msg({eq name='lang' value='1'}data.en_info{else/}data.info{/eq}, {time: 1500});
+                } else {
+                  layer.msg('{eq name="lang" value="1"}Successful cancellation{else/}撤销成功{/eq}', {time: 1500},function(){
+                    window.location = self.location;
+                    //location.href = self.location;
+                  });
+                }
+            });
+        });
+//  });
+	}
+    
+    $('.transaction_active').click(function(){
+        var id = $(this).data('id');
+        layer.confirm('{eq name="lang" value="1"}Confirm the transaction{else/}确认交易该委托{/eq}？', {
+            title: "{eq name='lang' value='1'}Confirm{else/}确认{/eq}",
+            btn: ['{eq name="lang" value="1"}Yes{else/}确认{/eq}', '{eq name="lang" value"1"}No{else/}取消{/eq}'],
+        }, function () {
+            $.post("{:url('transactionActive')}",{'id':id}).success(function(data) {
+              if (data.status === 0) {
+                layer.msg({eq name='lang' value='1'}data.en_info{else/}data.info{/eq}, {time: 1500});
+              } else {
+                  layer.msg('{eq name="lang" value="1"}Successful transaction{else/}交易成功{/eq}', {time: 1500},function(){
+                    location.href = self.location;
+                  });
+               }
+            });
+        });
+
+    });
+    
+    // 手机版委托标点页面样式
+    if(window.screen.width <= 768){ 	
+    	$('.buy-lucky-list input').css({'width': '100px'});
+    }
+  	if($('.buy-lucky-list li').eq(0).height()>35){
+  		$('.entrust-left-list').css({'height': '420px'});
+  	}
+</script>

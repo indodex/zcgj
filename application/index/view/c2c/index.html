@@ -1,0 +1,300 @@
+{include file='common/top' /}
+<style type='text/css'>
+.cursor {cursor:pointer;}
+.c2c_input {text-indent:0.5em}
+</style>
+    <div class="z-reg">
+        <div class="register-box">
+            <div class="c2c-z">
+                <div class="c2c-z-title">{:lang('available_balance')}：{$user_eth}USDT</div>
+                <div class="clear">
+                    <div class="buy-and-shell-title">
+                        <p class="want want-active cursor">{:lang('want_buy')}</p>
+                        <div class="eth">USDT</div>
+                        <p class="want cursor">{:lang('want_sell')}</p>
+                        <div class="eth">USDT</div>
+                    </div>
+                    <div class="buy-and-shell">
+                        <div class="buy-c2c-price">
+                            <span>{:lang('buying_price')}（¥）</span><span><input class="trade_input price_input_buy c2c_input" name="buy_price" type="text" /></span>
+                        </div>
+                        <div class="buy-c2c-price">
+                            <span>{:lang('purchase_volume')}（USDT）</span><span><input class="trade_input price_input_buy c2c_input" name="buy_number" type="text"/></span><span><button class="now-buy-b">{:lang('buy_now')}</button></span>
+                        </div>
+                        <div class="need-cny-list">
+                            <div class="need-cny">{:lang('need')}<span class="price_span_buy2">0.00</span>CNY</div>
+                            <div class="black-line"></div>
+                            <div class="need-cny-list-one clear t-cny">
+                                <span>{:lang('nick')}</span>
+                                <span>{:lang('transaction_type')}</span>
+                                <span>{:lang('trading_volume')}</span>
+                                <span>{:lang('price')}</span>
+                                <span>{:lang('operating')}</span>
+                            </div>
+                            <div style="height: 230px;overflow: auto;">
+                            	{volist name="list.sell_list" id="vo"}
+                            <div class="need-cny-list-one clear">
+                                <span>{$vo.name}</span>
+                                <span>
+                                    <img src="__IMG__/zhifubao.png" alt="">
+                                    <img src="__IMG__/weixin.png" alt="">
+                                    <img src="__IMG__/yinhangka.png" alt="">
+                                </span>
+                                <span>{$vo.number}</span>
+                                <span>{$vo.price}CNY</span>
+                                <span class="jiLao"><a class="eth-buy-now" href="javascript:;" data-name="{$vo.name}" data-number="{$vo.number}" data-price="{$vo.price}" data-id="{$vo.id}">{:lang(buy)}USDT</a></span>
+                            </div>
+                            {/volist}
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: none;" class="buy-and-shell">
+                        <div class="buy-c2c-price">
+                            <span>{:lang('sell_price')}（¥）</span><span><input class="trade_input price_input_sell c2c_input" name="sell_price"/></span>
+                        </div>
+                        <div class="buy-c2c-price">
+                            <span>{:lang('sell_volume')}（USDT）</span><span><input class="trade_input price_input_sell c2c_input" name="sell_number"/></span><span><button class="now-shell-b">{:lang('sell_now')}</button></span>
+                        </div>
+                        <div class="need-cny-list">
+                            <div class="need-cny get-cny">{:lang('get')}<span class="price_span_sell2">0.00</span>CNY</div>
+                            <div class="black-line"></div>
+                            <div class="need-cny-list-one clear t-cny">
+                                <span>{:lang('nick')}</span>
+                                <span>{:lang('transaction_type')}</span>
+                                <span>{:lang('trading_volume')}</span>
+                                <span>{:lang('price')}</span>
+                                <span>{:lang('operating')}</span>
+                            </div>
+                            <div style="height: 230px;overflow-y: scroll;">
+                            {volist name="list.buy_list" id="vo"}
+                            <div class="need-cny-list-one clear">
+                                <span>{$vo.name}</span>
+                                <span>
+                                    <img src="__IMG__/zhifubao.png" alt="">
+                                    <img src="__IMG__/weixin.png" alt="">
+                                    <img src="__IMG__/yinhangka.png" alt="">
+                                </span>
+                                <span>{$vo.number}</span>
+                                <span>{$vo.price}CNY</span>
+                                <span class="jiLao"><a class="eth-shell-now" href="javascript:;" data-name="{$vo.name}" data-number="{$vo.number}" data-price="{$vo.price}" data-id="{$vo.id}">{:lang('sell')}USDT</a></span>
+                            </div>
+                            {/volist}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="find-reg-success eth-now-buy">
+    <div style="background: rgba(0,0,0,0.4)" class="model"></div>
+    <div class="repeal add-bi-address eth-buy-box">
+        <div class="now-buy-title">{:lang('buy')}USDT</div>
+        <div class="eth-li">
+            <div>{:lang('seller_nick')}：<i class="buyname">123</i></div>
+            <div class="count-jy">{:lang('trading_volume')}(USDT)：<i  class="buynumber">100</i></div>
+            <div style="font-size: 12px;color: #666;">{:lang('quantity')}(CNY)：<i  class="buyprice">100</i>CNY</div>
+            <input type="text" class="buy-id" hidden="">
+            <div class="true-jy count-jy">
+                <i class="bg-zi" style="text-align: left;"><button class="buyactive">{:lang('submit')}</button></i>
+                <i class="bg-cc" style="text-align: right;"><button class="eth-buy-cancel">{:lang('cancel')}</button></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="find-reg-success eth-now-shell">
+    <div style="background: rgba(0,0,0,0.4)" class="model"></div>
+    <div class="repeal add-bi-address eth-buy-box" style="height: 260px;">
+        <div class="now-buy-title">{:lang('sell')}USDT</div>
+        <div class="eth-li">
+            <div>{:lang('buyer_nick')}：<i class="sellname">123</i></div>
+            <div class="count-jy">{:lang('trading_volume')}(USDT)：<i  class="sellnumber">100</i></div>
+            <div style="font-size: 12px;color: #666;">{:lang('quantity')}(CNY)：<i  class="sellprice">100</i>CNY</div>
+            <input type="text" class="sell-id" hidden="">
+            <div class="true-jy count-jy">
+                <i class="bg-zi" style="text-align: left;"><button class="sellactive">{:lang('submit')}</button></i>
+                <i class="bg-cc" style="text-align: right;"><button class="eth-shell-cancel">{:lang('cancel')}</button></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="find-reg-success eth-now-shell2">
+    <div style="background: rgba(0,0,0,0.4)" class="model"></div>
+    <div class="repeal add-bi-address eth-buy-box" style="height: 260px;">
+        <div class="now-buy-title" style='margin-top:20px;font-size:18px;color:blue;'>卖出成功</div>
+        <div class="eth-li">
+            <div style='font-size:16px;text-align:center;'>请前往&nbsp;<a style='color:blue;'>C2C订单</a>&nbsp;中查看详情</div>
+            <div class="true-jy count-jy">
+	            <i class="bg-zi" style="text-align: left;"><button class="sellactive_url">确定</button></i>
+	            <i class="bg-cc" style="text-align: right;"><button class="eth-shell-cancel2">{:lang('cancel')}</button></i>
+	        </div>
+        </div>
+    </div>
+</div>
+{include file='common/bottom' /}
+<script>
+
+    $('.now-buy-cancel').click(function () {
+        $('.now-buy').hide(300)
+        $('body').removeAttr('style')
+    })
+
+    $('.eth-buy-now').click(function () {
+        $('.eth-now-buy').show(300);
+        var name = $(this).data('name');
+        var number = $(this).data('number');
+        var price = $(this).data('price');
+        var id = $(this).data('id');
+        $('.buyname').html(name);
+        $('.buynumber').html(number);
+        $('.buyprice').html(price);
+        $('.buy-id').val(id);
+    })
+    $('.eth-buy-cancel').click(function () {
+        $('.eth-now-buy').hide(300)
+        $('body').removeAttr('style')
+    })
+
+    $('.now-shell-cancel').click(function () {
+        $('.now-shell').hide(300)
+        $('body').removeAttr('style')
+    })
+
+    $('.eth-shell-now').click(function () {
+        $('.eth-now-shell').show(300);
+        var name = $(this).data('name');
+        var number = $(this).data('number');
+        var price = $(this).data('price');
+        var id = $(this).data('id');
+        $('.sellname').html(name);
+        $('.sellnumber').html(number);
+        $('.sellprice').html(price);
+        $('.sell-id').val(id);
+    })
+    $('.eth-shell-cancel').click(function () {
+        $('.eth-now-shell').hide(300)
+        $('body').removeAttr('style')
+    })
+
+    $('.eth-shell-cancel2').click(function () {
+        $('.eth-now-shell2').hide(300)
+        $('body').removeAttr('style')
+    })
+
+    $('.want').click(function () {
+        $('.want').removeClass('want-active')
+        $(this).addClass('want-active')
+        let _index = $('.want').index($(this))
+        $('.buy-and-shell').hide()
+        $('.buy-and-shell').eq(_index).show()
+    })
+
+    $('.language').click(function () {
+        $('.choose-language').show(200)
+    })
+    $('.choose-language').mouseleave(function () {
+        $('.choose-language').hide(200)
+        return
+    }).click(function () {
+        $('.choose-language').hide(200)
+        return
+    })
+</script>
+<script type="text/javascript">
+    $('.price_input_buy').change(function(){
+        var price = $('input[name="buy_price"]').val();
+        var number = $('input[name="buy_number"]').val();
+        if(price == ''){
+            var price = 0;
+        }
+        if(number == ''){
+            var number = 0;
+        }
+        var allmoney = price * number;
+        console.log(allmoney);
+        $('.price_span_buy2').html(allmoney);
+    });
+
+    $('.price_input_sell').change(function(){
+        var price = $('input[name="sell_price"]').val();
+        var number = $('input[name="sell_number"]').val();
+        if(price == ''){
+            var price = 0;
+        }
+        if(number == ''){
+            var number = 0;
+        }
+        var allmoney = price * number;
+        $('.price_span_sell2').html(allmoney);
+        var  my_cur = {$user_eth};
+        if(my_cur < number){
+            layer.msg('{eq name="lang" value="1"}Exceed quantity{else/}超出数量{/eq}', {time: 1500},function(){
+                $('input[name="sell_number"]').val("");
+            });
+        }
+    });
+    $('.now-buy-b').click(function(){
+        var buy_price = $('input[name="buy_price"]').val();
+        var buy_number = $('input[name="buy_number"]').val();
+        $.post("{:url('index')}",{'price':buy_price,'number':buy_number,'type':2}).success(function(data) {
+          if (data.status === 0) {
+            layer.msg({eq name='lang' value='1'}data.en_info{else/}data.info{/eq}, {time: 1500});
+          } else {
+            layer.msg('{eq name="lang" value="1"}Hanging successfully{else/}挂买成功{/eq}', {time: 1500},function(){
+                location.href = self.location;
+            });
+
+          }
+        });
+    });
+    $('.now-shell-b').click(function(){
+        var sell_price = $('input[name="sell_price"]').val();
+        var sell_number = $('input[name="sell_number"]').val();
+        $.post("{:url('index')}",{'price':sell_price,'number':sell_number,'type':1}).success(function(data) {
+          if (data.status === 0) {
+            layer.msg({eq name='lang' value='1'}data.en_info{else/}data.info{/eq}, {time: 1500});
+          } else {
+            layer.msg('{eq name="lang" value="1"}Hanging successfully{else/}挂买成功{/eq}', {time: 1500},function(){
+                location.href = self.location;
+            });
+
+          }
+        });
+    });
+    $('.buyactive').click(function(){
+        var id = $('.buy-id').val();
+        var payment_method = $("input[name='eth']:checked").val();
+        $.post("{:url('transactionActive')}",{'id':id,'payment_method':payment_method}).success(function(data) {
+          if (data.status === 0) {
+            layer.msg({eq name='lang' value='1'}data.en_info{else/}data.info{/eq}, {time: 1500});
+          } else {
+              layer.msg('{eq name="lang" value="1"}Successful transaction{else/}交易成功{/eq}', {time: 1500},function(){
+                location.href = "{:url('Currency/pay')}?id=" + data.data;
+              });
+           }
+        });
+    });
+    
+    // 我要卖出下弹出'卖出USDT'中点击'确定'
+    $('.sellactive').click(function(){
+        var id = $('.sell-id').val();
+        $.post("{:url('transactionActive')}",{'id':id}).success(function(data) {
+          if (data.status === 0) {
+            layer.msg({eq name='lang' value='1'}data.en_info{else/}data.info{/eq}, {time: 1500});
+          } else {
+              layer.msg('{eq name="lang" value="1"}Successful transaction{else/}交易成功{/eq}', {time: 1500});
+              $('.eth-now-shell').hide(300)
+        	  $('.eth-now-shell2').show(300);
+           }
+        });
+    });
+    
+    // 点击跳转到'个人中心'的'C2C订单'
+    $('.sellactive_url').click(function(){
+    	location.href = '{:url("Currency/index")}?jump_c2c=1';
+    });
+</script>

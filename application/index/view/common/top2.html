@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>{:config('WEB_SITE_NAME')}</title>
+		<link rel="stylesheet" href="__CSS__/font_795017_oc8qigb32w.css"/>
+		<link rel="stylesheet" href="__CSS__/bootstrap.css"/>
+		<link rel="stylesheet" href="__CSS__/block_online.css"/>
+		<link rel="stylesheet" href="__CSS__/common.css"/>
+		<link rel="stylesheet" href="__LAYUI__/css/layui.css"/>
+		<link rel="stylesheet" href="__CSS__/index.css">
+		<link rel="stylesheet" href="__CSS__/spop.min.css">
+		<link rel="stylesheet" href="__CSS__/swiper.min.css">
+		
+		<script type="text/javascript" src="__JS__/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="__JS__/block_online.js"></script>
+		<script type="text/javascript" src="__LAYUI__/layui.all.js"></script>
+		<script type="text/javascript" src="__JS__/bootstrap.min.js"></script>
+		<script type="text/javascript" src="__JS__/spop.min.js"></script>
+		<script type="text/javascript" src="__JS__/clipboard.min.js"></script>
+		<script type="text/javascript" src="__JS__/zcity.js"></script>
+		<script type="text/javascript" src="__JS__/spop.min.js"></script>
+		<script type="text/javascript" src="__JS__/jquery.peity.min.js"></script>
+		<script type="text/javascript" src="__JS__/swiper.min.js"></script>
+	</head>
+	<body>
+		<div class="game-bg">
+		    <div class="index-top">
+		        <ul class="index-top-menu clear">
+		        	<li style="width: 11%"><img src="{:config('WEB_LOGO')}" alt=""></li>
+		        	{volist name='sidebar' id='vo'}
+			            <li class="wind-8 menu_list" data='{$vo.title}'><a href="/{$vo.name}" {eq name='lang' value='1'}style='line-height:30px;'{/eq}>{eq name='lang' value='1'}{$vo.en_title}{else/}{$vo.title}{/eq}</a></li>
+		            {/volist}
+		            <li class="wind-8 change-language">
+		                <div class="language">
+		                	{eq name="lang" value='1'}
+		        				ENGLISH
+		        			{else/}
+		        				简体中文
+		        			{/eq}
+		        			<i class="iconfont icon-xiala"></i>
+		                </div>
+		                <div class="choose-language" style="width: 100%">
+		                    <p data-lang="en">ENGLISH</p>
+		                    <p data-lang="cn">简体中文</p>
+		                </div>
+		            </li>
+		            {empty name='account'}
+			            <li style="width: 15%">
+			                <a href="{:url('publics/login')}" style='font-size:12px;'><span class="button">{:lang('login')}</span></a>
+			                <a href="{:url('publics/userReg')}" style='font-size:12px;'><span class="button">{:lang('register')}</span></a>
+			            </li>
+		            {else/}
+		            	<li class="login-success" style="width: 13%">
+			                <span>
+			                    <img src="__IMG__/gerenzhongxin/touxiang.png" alt="" style='width:50px;'/>
+			                </span>
+			                <span class="login-id">{$_SESSION['think']['account']}<i class="iconfont icon-xiala1"></i></span>
+			            </li>
+			            <li class='logout'>{:lang('sign_out')}</li>
+		            {/empty}
+		        </ul>
+		    </div>
+<!--头部 end-->
+<script type="text/javascript">
+// 切换中英文
+$('.choose-language > p').click(function() {
+	var lang = $(this).data('lang');
+	edit_lang(lang);
+});
+function edit_lang(lang){
+    $.post("{:url('Publics/lang')}", {'lang':lang}).success(function(data) {
+    	location.href = self.location;
+    });
+}
+// 退出登陆
+$('.logout').click(function(){
+	location.href = '{:url("Publics/logout")}';
+});
+</script>

@@ -1,0 +1,97 @@
+ {include file='common/top' /}
+<style type='text/css'>
+.welcome {position: absolute;top: 380px;padding: 15px 0;left: calc(50% - 165px);border: 1px solid #fff;border-radius: 4px;color: #fff;width: 300px;font-size: 20px;text-align: center;}
+.login-box-text {overflow-y:scroll;height:300px;}
+</style>
+<body style='position:relative'>
+<!--<div class='welcome' {eq name='lang' value='1'}style='left:calc(50% - 222px);width:450px;'{/eq}>{:lang('welcome')}</div>-->
+
+<div class="login-suc-box">
+    <div class="login-box-title">{eq name='lang' value='1'}{$index.notice.en_name}{else/}{$index.notice.name}{/eq}</div>
+    <div class="login-box-time">{empty name='$index.notice.update_time'}{$index.notice.create_time}{else/}{$index.notice.update_time}{/empty}</div>
+    <div class="login-box-text">
+        {eq name='lang' value='1'}{$index.notice.en_content}{else/}{$index.notice.content}{/eq}
+    </div>
+    <div class="iconfont icon-guanbi box-close"></div>
+</div>
+
+<div class="game-message">
+    <!--<div class="game-mes-img"><img src="./imgs/shouye/banner02.png" alt=""></div>-->
+    <div class="game-message-text">
+        <div class="game-message-content">
+            <ul>
+                <li class="game-message-tit">{eq name='lang' value='1'}{$index.game_info.en_name}{else/}{$index.game_info.name}{/eq}</li>
+                <li>{eq name='lang' value='1'}{$index.game_info.en_content}{else/}{$index.game_info.content}{/eq}</li>
+                <li><span class="button"><a href="{:url('Game/index')}">{:lang('see_details')}</a></span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="py-center">
+    <div class="index-game-title">{:lang('currency_transaction')}</div>
+    <div class="center-1200">
+        <ul class="py-all-list">
+            <li class="one-list clear">
+                <div>{:lang('currency')}</div>
+                <div>{:lang('new_deal_price')}</div>
+                <div>{:lang('24H_volume')}</div>
+                <div>{:lang('24H_turnover')}</div>
+                <div>{:lang('ups_downs')}</div>
+                <div>{:lang('price_trend_3')}</div>
+                <div>{:lang('operating')}</div>
+            </li>
+            {volist name="curdatas" id="vo"}
+	            <li class="one-list one-list-content clear">
+	                <div><span class="what-bi"><img src="{$vo.icon}" alt="" width="40px;" height="40px;" style="margin:10px 0 0 10px; "></span>{$vo.name}</div>
+	                <div class="increase">￥{$vo.price_usd} <i class="iconfont icon--xiangshangjiantou"></i></div>
+	                <div>{$vo.percent_change_24h}</div>
+	                <div>￥{$vo.24vol}</div>
+	                {gt name="vo.percent_change_24h" value="0"}
+	                	<div class="increase lower">{$vo.percent_change_24h}%</div>
+	                {else/}
+	                	<div class="increase increase">{$vo.percent_change_24h}%</div>
+	                {/gt}
+	                <div><a href="{:url('trade/detail')}"><span data-peity='{ "fill": ["#fff"],"stroke": ["#f74d53"]}' class="line">5,3,9,6,5,9,7,3,5,2,8,12</span></a></div>
+	                <div class="deal"><a href="{:url('trade/sell')}?id={$vo.id}">{:lang('go_trade')}</a></div>
+	            </li>
+	        {/volist}
+        </ul>
+    </div>
+</div>
+<div class="lucky-key">
+    <div class="z-lucky-key">
+        <div class="lucky-key-text">
+            <ul>
+                <li style="font-size: 16px">{eq name='lang' value='1'}{$index.lucky_key.en_name}{else/}{$index.lucky_key.name}{/eq}</li>
+                <li>{eq name='lang' value='1'}{$index.lucky_key.en_content}{else/}{$index.lucky_key.content}{/eq}</li>
+                <li>
+                    <div class="friend-link-line clear">
+                        <p class="_line"></p>
+                        <p class="line-text">{:lang('links')}</p>
+                        <p class="_line"></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="friend-link clear">
+                    	{volist name='$index.links' id='vo'}
+	                        <div>
+	                        	<a href='{$vo.link}' target='_blank'>
+		                            <ul>
+		                                <li><img width="50" src="{$vo.logo}" {eq name='lang' value='1'}alt="{$vo.en_title}"{else/}alt="{$vo.title}"{/eq} /></li>
+		                                <li>{eq name='lang' value='1'}{$vo.en_title}{else/}{$vo.title}{/eq}</li>
+		                            </ul>
+	                            </a>
+	                        </div>
+	                    {/volist}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{include file='common/bottom' /}
+<script type='text/javascript'>
+	$('.login-suc-box .box-close').click(function () {
+        $('.login-suc-box').hide()
+    })
+</script>

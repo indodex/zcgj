@@ -1,0 +1,63 @@
+{include file='common/top' /}
+<style type='text/css'>
+#login{
+	text-align: center;
+	background: #c2b2ff;
+	color: #fff;
+	line-height: 42px;
+	height: 42px;
+}
+</style>
+	<div class="login">
+        <div class="login-box">
+            <div class="log">{:lang('login')}</div>
+            <ul>
+            	<form class='login_box'>
+	                <li><input id="user" type="text" name='account' placeholder="{:lang('account')}"><span class="iconfont icon-yonghu"></span></li>
+	                <li><input id="password" type="password" name='password' placeholder="{:lang('pwd')}"><span class="iconfont icon-mima"></span></li>
+	                <li><input id="login" type="submit" value="{:lang('login')}"></li>
+            	</form>
+            </ul>
+            <div class="login-tool">
+                <a href="{:url('publics/forgetPwd')}"><span style="float: left;">{:lang('forget')}</span></a>
+                <a href="{:url('publics/userReg')}"><span style="float: right">{:lang('register')}</span></a>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="common/bottom" /}
+<script type='text/javascript'>
+// 成功提交框
+function shipSuc (text) {
+    spop({
+        template: text,
+        position  : 'top-center',
+        style: 'success',
+        autoclose: 2000
+    });
+}
+// 错误提示框
+function shipWar (text) {
+    spop({
+        template: text,
+        position  : 'top-center',
+        style: 'error',
+        autoclose: 2000
+    });
+}
+
+// 提交登陆
+$('.login_box').submit(function(){
+	$.post('{:url("login")}',$('.login_box').serialize()).success(function(ret){
+		if(ret.status === 0){
+			shipWar({eq name='lang' value='1'}ret.en_info{else/}ret.info{/eq});
+		}else{
+			shipSuc({eq name='lang' value='1'}ret.en_info{else/}ret.info{/eq});
+			setTimeout(function(){
+				location.href = ret.url;
+			},1000);
+		}
+	});
+	return false;
+});
+</script>

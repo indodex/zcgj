@@ -1,0 +1,357 @@
+{include file='common/top' /}
+	<div class="z-reg">
+        <div class="register-box">
+            <div class="register-from">
+                <div class="register-flow">
+                    <ul class="clear">
+                        <li>
+                            <span class="num-circle num-circle-active">1</span>
+                            <span class="reg-text reg-text-active">{:lang('reg_phone')}</span>
+                            <span class="reg-line reg-line-active"></span>
+                        </li>
+                        <li>
+                            <span class="num-circle">2</span>
+                            <span class="reg-text">{:lang('set_pwd')}</span>
+                            <span class="reg-line"></span>
+                        </li>
+                        <li>
+                            <span class="num-circle">3</span>
+                            <span class="reg-text">{:lang('verified')}</span>
+                            <span class="reg-line"></span>
+                        </li>
+                        <li style="width: 16%">
+                            <span class="num-circle">4</span>
+                            <span class="reg-text">{:lang('reg_success')}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="register-content">
+                    <ul class="reg-from-in">
+                        <li>
+                            <span class="reg-form-before">{:lang('phone')}</span>
+                            <span><input id="phone" class="in-input" type="text" name='account' placeholder="{:lang('input_phone')}"/></span>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('log_pwd')}</span>
+                            <span><input id="pwd" class="in-input" type="password" name='password' placeholder="{:lang('input_login_pwd')}"/></span>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('log_repwd')}</span>
+                            <span><input id="pwd-t" class="in-input" type="password" name='repassword' placeholder="{:lang('input_login_repwd')}"/></span>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('invitation_code')}</span>
+                            <span>
+                            	{empty name='$code'}
+                            		<input style="width: 240px" id='invitation_code' class="in-input" type="text" name='invitation_code' />
+                            	{else/}
+                            		<input style="width: 240px" class="in-input" type="text" value='{$code}' disabled="disabled" />
+                            		<input type='hidden' id='invitation_code' value='{$code}' />
+                            	{/empty}
+                            </span>
+                            <span style="display: inline-block;font-size: 12px;padding: 0 12px; color: #8c74df">{:lang('input_optional')}</span>
+                        </li>
+                        <li class="rule">
+                            <span>
+                                <input id="rule-true" type="checkbox">
+                                <label for="rule-true">{eq name='lang' value='1'}I agree with the nebula network{else/}我同意星云网{/eq}</label>
+                            </span>
+                            <span class="agreement">《{eq name='lang' value='1'}Service agreement{else/}服务协议{/eq}》</span>
+                        </li>
+                    </ul>
+                    <ul style="display: none" class="reg-from-in">
+                        <li class="reg-remind">
+                            <img src="../imgs/denglu-zhuce/tixing.png" alt="">
+                        </li>
+                        <li style="padding-bottom: 35px" class="reg-remind">
+                            <p>{eq name='lang' value='1'}To protect your funds, please set a transaction password.{else/}为保障您的资金安全，请设置交易密码。{/eq}</p>
+                            <p>{eq name='lang' value='1'}When investing, trading, or transferring out of account assets, you need to use the transaction password, so please keep in mind.{else/}对账户资产进行投资、交易、转出时，需用到交易密码，请务必牢记。{/eq}</p>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('transaction_pwd')}</span>
+                            <span><input id="jy-pwd" class="in-input" type="password" name='payment_password' placeholder="{:lang('input_transaction_pwd')}"/></span>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('transaction_repwd')}</span>
+                            <span><input id="jy-pwd-t" class="in-input" type="password" name='repayment_password' placeholder="{:lang('input_transaction_repwd')}"/></span>
+                        </li>
+                    </ul>
+                    <ul style="display: none" class="reg-from-in id-card">
+                        <li style="position: relative;" class="reg-remind">
+                            <img class="icon-id" src="__IMG__/denglu-zhuce/tixing.png" alt="" {eq name='lang' value='1'}style='left:70px'{/eq}/>
+                            {eq name='lang' value='1'}For your money security, please real-name certification{else/}为了您的资金安全，请实名认证{/eq}
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('nick')}</span>
+                            <span><input id="nick" class="in-input" type="text" name='username' placeholder="{:lang('input_nick')}"/></span>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('real_name')}</span>
+                            <span><input id="name" class="in-input" type="text" name='real_name' placeholder="{:lang('input_real_name')}"/></span>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('certificate')}</span>
+                            <span>
+                                <select id="id_type" class="in-input" name="document_type" >
+                                    <option value="1">{:lang('identity')}</option>
+                                    <!--<option value="0">护照</option>-->
+                                </select>
+                            </span>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('id_code')}</span>
+                            <span><input id="idCard" class="in-input" type="text" name='identity' placeholder="{:lang('input_id_code')}"/></span>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('tel')}</span>
+                            <span><input id="phone-2" class="in-input" type="text" name='tel' placeholder="{:lang('input_tel')}"/></span>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('verification')}</span>
+                            <span><input id="code-card" style="width: 210px" class="in-input" type="text" name='verify' placeholder="{:lang('input_verification')}"/></span>
+                            <span style="display: inline-block;font-size: 12px;padding: 0 12px; color: #8c74df">{:lang('input_verification')}</span>
+                        </li>
+                        <li>
+				        	<a href="javascript:void(0)" style="margin-left:125px;width: 125px;">
+				        		<img class="verifyimg reloadverify" alt="{eq name='lang' value='1'}Click to change{else/}点击切换{/eq}" src="{:captcha_src()}" title="{:lang('refresh_code')}" /> 
+				        	</a>
+                        </li>
+                    </ul>
+                    <ul style="width: 400px;margin: 0 auto;display: none" class="reg-from-in id-card">
+                        <li style="text-align: center;color: #555;font-size: 22px;">
+                           <div style="padding: 18px 0">{:lang('reg_success')}</div>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('nick')}</span>
+                            <span class="reg-from-after" id='reg_username'></span>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('real_name')}</span>
+                            <span class="reg-from-after" id='reg_real_name'></span>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('certificate')}</span>
+                            <span class="reg-from-after" id='reg_document_type'></span>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('certificate')}</span>
+                            <span class="reg-from-after" id='reg_identity'></span>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('tel')}</span>
+                            <span class="reg-from-after" id='reg_tel'></span>
+                        </li>
+                    </ul>
+                    <ul class="reg-rule">
+                        <li>
+                            <button id="next" class="next">{:lang('next')}</button>
+                            <button id="register" class="next" style='display:none;'>{:lang('register')}</button>
+                            <button style="display: none" id="next-jump" class="next"><a style="color: #fff;" href="{:url('publics/login')}">{:lang('login')}</a></button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="common/bottom" /}  
+<script type='text/javascript'>
+    // 成功提交框
+	function shipSuc (text) {
+        spop({
+            template: text,
+            position  : 'top-center',
+            style: 'success',
+            autoclose: 2000
+        });
+    }
+    // 错误提示框
+    function shipWar (text) {
+        spop({
+            template: text,
+            position  : 'top-center',
+            style: 'error',
+            autoclose: 2000
+        });
+    }
+
+    let i = 1
+    let check = false;
+    let reg = false;
+    $('#next,#register').click(function () {
+        if(i==1){
+            let phone = $("#phone").val();
+            let rule = $("#rule-true").prop("checked");
+            let telReg = !!phone.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
+            if (telReg == false) {
+                shipWar({eq name='lang' value='1'}'Please input valid mobile phone number'{else/}'请输入有效的手机号'{/eq})
+                return}
+            if ($('#pwd').val()=='') {
+                shipWar({eq name='lang' value='1'}'Password can not be blank'{else/}'密码不能为空'{/eq})
+                return}
+            $len = $('#pwd').val().length;
+            if($len < 6 || $len > 32){
+                shipWar({eq name='lang' value='1'}'The password length must be between 6 and 32 bits'{else/}'密码长度需在6~32位之间'{/eq});
+                return}
+            if ($('#pwd').val() !== $('#pwd-t').val()) {
+                shipWar({eq name='lang' value='1'}'Entering passwords twice is different'{else/}'两次输入密码不一样'{/eq})
+                return}
+            if (!rule){
+                shipWar({eq name='lang' value='1'}'Please read and agree to the service agreement carefully'{else/}'请仔细阅读并同意服务协议'{/eq})
+                return}
+        }
+        if(i==2){
+            if ($('#jy-pwd').val()=='') {
+                shipWar({eq name='lang' value='1'}'Transaction password cannot be empty'{else/}'交易密码不能为空'{/eq})
+                return}
+            $jy_len = $('#jy-pwd').val().length;
+            if($jy_len < 6){
+                shipWar({eq name='lang' value='1'}'Transaction password length cannot be less than 6 digits'{else/}'交易密码长度不能小于6位'{/eq});
+                return}
+            if ($('#jy-pwd').val() !== $('#jy-pwd-t').val()) {
+                shipWar({eq name='lang' value='1'}'Entering the transaction password twice is different'{else/}'两次输入交易密码不一样'{/eq})
+                return}
+        }
+        if(i==3){
+        		if ($('#nick').val()=='') {
+                shipWar({eq name='lang' value='1'}'Nickname should be filled'{else/}'昵称不能为空'{/eq})
+                return}
+        		if ($('#name').val()=='') {
+                shipWar({eq name='lang' value='1'}'Do not leave blank for real name'{else/}'真实姓名不能为空'{/eq})
+                return}
+        		if ($('#idCard').val()=='') {
+                shipWar({eq name='lang' value='1'}'Please enter the ID number'{else/}'请输入证件号码'{/eq})
+                return}
+            let phone = $("#phone-2").val();
+            let rule = $("#rule-true").prop("checked");
+            let telReg = !!phone.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
+            if (telReg == false) {
+                shipWar({eq name='lang' value='1'}'Please input valid mobile phone number'{else/}'请输入有效的手机号'{/eq})
+                return}
+            if ($('#code-card').val()=='') {
+                shipWar({eq name='lang' value='1'}'Verification code must be filled'{else/}'验证码不能为空'{/eq})
+                return
+            }else{
+              // 判断验证码
+	            var verify = $('#code-card').val();
+	            $.ajax({
+	            	type:'post',
+	            	async:false,
+	            	url:'{:url("check_verify")}',
+	            	data:{verify:verify},
+	            	success:function(ret){
+	            		if(ret.code === 0){
+	            			$(".reloadverify").click();
+	            			check = false;
+	            		}else{
+	            			check = true;
+	            		}
+	            	}
+	            });
+	            if (check === false){
+	            	shipWar({eq name='lang' value='1'}'Verification code error'{else/}'验证码错误'{/eq})
+	            	return}
+            }
+            
+            // 提交注册
+            var account = $('#phone').val();
+            var password = $('#pwd').val();
+            var invitation_code = $('#invitation_code').val();
+            var payment_password = $('#jy-pwd').val();
+            var username = $('#nick').val();
+            var real_name = $('#name').val();
+            var document_type = $('#id_type').val();
+            var identity = $('#idCard').val();
+            var tel = $('#phone-2').val();
+            
+            var arr = {
+            	account:account,
+            	password:password,
+            	invitation_code:invitation_code,
+            	payment_password:payment_password,
+            	username:username,
+            	real_name:real_name,
+            	document_type:document_type,
+            	identity:identity,
+            	tel:tel
+            };
+            $.ajax({
+            	type:'post',
+            	async:false,
+            	url:'{:url("userReg")}',
+            	data:arr,
+            	success:function(ret){
+            		if(ret.status === 0){
+            			$(".reloadverify").click();
+            			shipWar({eq name='lang' value='1'}ret.en_info{else/}ret.info{/eq})
+            			reg = false;
+            		}else{
+            			$('#reg_username').html(ret.data.username);
+            			$('#reg_real_name').html(ret.data.real_name);
+            			$('#reg_document_type').html(ret.data.document_type_text);
+            			$('#reg_identity').html(ret.data.identity);
+            			$('#reg_tel').html(ret.data.tel);
+            			reg = true;
+            		}
+            	}
+            });
+		    if(reg === false){
+		    	return;
+		    }
+        }
+        $('#name').html('下一步');
+        $('.reg-from-in').css('display','none')
+        $('.reg-from-in').eq(i).css('display','block')
+        $('.num-circle').eq(i).addClass('num-circle-active')
+        $('.reg-text').eq(i).addClass('reg-text-active')
+        $('.reg-line').eq(i).addClass('reg-line-active')
+        console.log(i)
+        if(i==2){
+        	$('#next').hide()
+        	$('#register').show();
+        }
+        if(i==3){
+            $('#next').hide()
+            $('#register').hide();
+            $('#next-jump').show()
+        }
+        if(i==4){
+            $('.reg-from-in').css('display','none')
+            $('.reg-from-in').eq(0).css('display','block')
+            $('.num-circle').removeClass('num-circle-active')
+            $('.reg-text').removeClass('reg-text-active')
+            $('.reg-line').removeClass('reg-line-active')
+            $('.num-circle').eq(0).addClass('num-circle-active')
+            $('.reg-text').eq(0).addClass('reg-text-active')
+            $('.reg-line').eq(0).addClass('reg-line-active')
+            i=1;
+            return
+        }
+        i++
+    })
+    $('.language').click(function () {
+        $('.choose-language').show(200)
+    })
+    $('.choose-language').mouseleave(function () {
+        $('.choose-language').hide(200)
+        return
+    }).click(function () {
+        $('.choose-language').hide(200)
+        return
+    })
+    
+    // 点击刷新二维码
+    var verifyimg = $(".verifyimg").attr("src");
+    $(".reloadverify").click(function() {
+      if (verifyimg.indexOf('?') > 0) {
+        $(".verifyimg").attr("src", verifyimg + '&random=' + Math.random());
+      } else {
+        $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/, '') + '?' + Math.random());
+      }
+    });
+    
+    // 点击登陆
+    $('#next-jump').click(function(){
+    	location.href = '{:url("login")}';
+    });
+</script>

@@ -1,0 +1,43 @@
+{include file='common/top2' /}
+<style type='text/css'>
+.game-bg {min-height: 900px;}
+</style>
+    <div class="py-center-list-3">
+        <div style="background: none;" class="py-list">
+            <ul style="height: 700px;overflow: auto;padding-top: 20px;background: none;" class="py-all-list">
+                <div class="team-top">
+                    <div class="team-lucky">{eq name='lang' value='1'}{$team.en_name}{else/}{$team.name}{/eq}</div>
+                    <div style="height: 3px" class="black-line"></div>
+                </div>
+                <div class="team-js">
+                    <p class="team-js-content">{eq name='lang' value='1'}{$team.en_content}{else/}{$team.content}{/eq}</p>
+                    <p class="team-js-time">{:lang('release')}：{$team.date}</p>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+{include file='common/bottom' /}
+<script>
+    $(".line").peity("line")
+    // function time_remore(element) {
+    //     var aDiv = $('.return_data');
+    //     var arr_sort_time = [];
+    //     for (var i = 0; i < aDiv.length; i++) {
+    //         arr_sort_time.push(aDiv[i]);
+    //     }
+    //     arr_sort_time.sort(function (a, b) {
+    //         if (time_fliger) {
+    //             return (a.getAttribute(element) * 1) - (b.getAttribute(element) * 1)
+    //         } else {
+    //             return (a.getAttribute(element) * -1) - (b.getAttribute(element) * -1)
+    //         }
+    //     });
+    //     for (var i = 0; i < arr_sort_time.length; i++) {
+    //         $('.air_body_box').append(arr_sort_time[i]);
+    //     }
+    //     time_fliger = !time_fliger
+    // }
+</script>
+</body>
+</html>

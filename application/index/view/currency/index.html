@@ -1,0 +1,2078 @@
+{include file='common/top2' /}
+<style type='text/css'>
+.pea_img {width:30px;height:30px;}
+.cursor {cursor:pointer;}
+#username {text-indent:0.5em}
+.recharge-num {text-indent:0.5em}
+.withdraw_select {float:left;margin-left:48px;width:200px;height:28px;text-indent:0.5em;background-color:#C7EDCC;border:0px;}
+.invitation_qrcode {position:relative;top:-500px;}
+.no_data {height:50px;line-height:50px;font-family:"微软雅黑";font-size:16px;color:purple;text-align:center;border:1px solid gainsboro;}
+</style>
+    <div style="padding-top: 100px;" class="py-center-list-3">
+        <div style="margin-top: 34px" class="py-list">
+            <ul style="height: 1030px;margin:0 auto;overflow: auto" class="py-all-list">
+               <li class="my-all-info-menu clear">
+                   <ol class="my-all-info">
+                       <li class="menu-li-active">{:lang('account_assets')}</li>
+                       <li>{:lang('financial_log')}</li>
+                       <li>{:lang('Entrusted_management')}</li>
+                       <li>{:lang('my_deal')}</li>
+                       <li>{:lang('commission_history')}</li>
+                       <li>{:lang('C2C_order')}</li>
+                       <li>{:lang('change_password')}</li>
+                       <li>{:lang('personal_information')}</li>
+                       <li>{:lang('verified')}</li>
+                       <li>{:lang('recharge')}</li>
+                       <li>{:lang('withdraw')}</li>
+                       <li>{:lang('user_center')}</li>
+                       <li>{:lang('invite_friends')}</li>
+                       <li>{:lang('system_information')}</li>
+                   </ol>
+                   <ol class="my-all-info-content">
+                       <li>
+                           <div class="info-content-title">{:lang('account_assets')}</div>
+                           <!--<div class="my-property">
+                               <span>{:lang('total_assets')}:{$list.all_usdt} USDT</span>
+                               <span>{:lang('valuation')}:{$list.cny} CNY</span>
+                           </div>
+                           <div class="my-property">
+                               <span>{:lang('total_assets')}:{$list.all_pea} PEA</span>
+                               <span>{:lang('valuation')}:{$list.usdt} USDT</span>
+                           </div>-->
+                           <div class="my-property">
+                           		<span>{:lang('total_assets')}:{$list.user_usdt} USDT</span>
+                               	<span>{:lang('valuation')}:{$list.user_cny} CNY</span>
+                           </div>
+                           {volist name='$list.cur_info' id='vo'}
+                           		<div class="my-property">
+                               		<span>{:lang('total_assets')}:{$vo.all_cur} {$vo.name}</span>
+                               		<span>{:lang('valuation')}:{$vo.cur_num} USDT</span>
+                               	</div>
+                           {/volist}
+                           <div class="my-py-list clear">
+                               <span>{:lang('currency')}</span>
+                               <span>{:lang('total')}</span>
+                               <span>{:lang('available')}</span>
+                               <span>{:lang('frozen')}</span>
+                               <span>{:lang('operating')}</span>
+                               <span>{:lang('transaction')}</span>
+                           </div>
+                           {volist name='$list.assets' id='vo'}
+	                           <div style="padding-top: 15px;" class="my-py-list-one clear">
+	                               <span class="bi-mold">
+	                                   <img src="{$vo.cur_icon}" alt="">
+	                                   {$vo.cur_name}
+	                               </span>
+	                               <span>{$vo.number}</span>
+	                               <span>{$vo.available}</span>
+	                               <span>{$vo.frozen}</span>
+	                               <span>
+	                               	{eq name='$vo.cur_id' value='1'}
+	                               		<i class='cursor' onclick="tabJump(9)">{:lang('recharge')}</i>
+	                               		<i class='cursor' onclick="tabJump(10)">{:lang('withdraw')}</i>
+	                               	{else/}--{/eq}
+	                               </span>
+	                               <span class="jiLao"><a href="{:url('C2c/index')}">{:lang('go_trade')}</a></span>
+	                           </div>
+	                       {/volist}
+                       </li>
+
+                       <li style="display: none;">
+                           <div class="info-content-title">{:lang('financial_log')}</div>
+                           <div class="my-py-list clear">
+                               <span>{:lang('types')}</span>
+                               <span>{:lang('description')}</span>
+                               <span>{:lang('change_fund')}</span>
+                               <span>{:lang('expense_income')}</span>
+                               <span>{:lang('currency')}</span>
+                               <span>{:lang('transaction_time')}</span>
+                           </div>
+                           <div id='log_list' style="height: 620px;" data_count='{$list.log_count}'>
+                           	   <!--{volist name='list.log' id='vo'}
+	                               <div style="padding-top: 15px;" class="my-py-list-one clear">
+	                                   <span>{$vo.record_type_text}</span>
+	                                   <span>{$vo.remarks}</span>
+	                                   <span>{$vo.finance}</span>
+	                                   <span class="sell">{$vo.type_text}</span>
+	                                   <span>{$vo.cur_name}</span>
+	                                   <span>{$vo.create_date}</span>
+	                               </div>
+                               {/volist}-->
+                           </div>
+                           <div id='log_page' class="change-page"></div>
+                       </li>
+
+                       <li style="display: none;">
+                           <div class="info-content-title">{:lang('Entrusted_management')}</div>
+                           <div class="my-py-list my-py-entrust clear">
+                               <span style="width: 16%">{:lang('commission_time')}</span>
+                               <span>{:lang('currency')}</span>
+                               <span style="width: 6%">{:lang('types')}</span>
+                               <span>{:lang('number_orders')}</span>
+                               <span>{:lang('commission_price')}</span>
+                               <span>{:lang('number_transactions')}</span>
+                               <span>{:lang('not_quantity')}</span>
+                               <span>{:lang('status')}</span>
+                               <span>{:lang('operating')}</span>
+                           </div>
+                           <div id='entrust_manage_list' style="height: 620px;" data_count='{$list.entrust_manage_count}'>
+                           		<!--{volist name='list.entrust_manage' id='vo'}
+	                               <div style="padding-top: 15px;" class="my-py-list-one my-py-entrust-one clear">
+	                                   <span style="width: 16%">{$vo.start_date}</span>
+	                                   <span>{$vo.cur_name}</span>
+	                                   <span style="width: 6%">{$vo.trade_type_text}</span>
+	                                   <span>{$vo.number}</span>
+	                                   <span>{$vo.price}</span>
+	                                   <span>{$vo.deal}</span>
+	                                   <span>{$vo.no_deal}</span>
+	                                   <span>{$vo.trade_status_text}</span>
+	                                   <span class="jiLao"><a href="javascript:;">{:lang('commission')}</a></span>
+	                               </div>
+	                            {/volist}-->
+                           </div>
+                           <div id='entrust_manage_page' class="change-page"></div>
+                       </li>
+
+                       <li style="display: none;">
+                           <div class="info-content-title">{:lang('my_deal')}</div>
+                           <div class="my-py-list my-py-finance clear">
+                               <span>{:lang('order_number')}</span>
+                               <span>{:lang('currency')}</span>
+                               <span>{:lang('transaction_time')}</span>
+                               <span>{:lang('types')}</span>
+                               <span>{:lang('deal_price')}</span>
+                               <span>{:lang('number_transactions')}</span>
+                               <span>{:lang('turnover')}</span>
+                           </div>
+                           <div id='deal_list' style="height: 620px;" data_count='{$list.deal_count}'>
+                               <!--{volist name='list.deal' id='vo'}
+	                               <div style="padding-top: 15px;" class="my-py-list-one my-py-finance-one clear">
+	                                   <span>{$vo.order}</span>
+	                                   <span>{$vo.cur_name}</span>
+	                                   <span>{$vo.done_date}</span>
+	                                   <span>{$vo.type_text}</span>
+	                                   <span>{$vo.deal_price}</span>
+	                                   <span>{$vo.order_number}</span>
+	                                   <span>{$vo.turnover}</span>
+	                               </div>
+                               {/volist}-->
+                           </div>
+                           <div id='deal_page' class="change-page"></div>
+                       </li>
+
+                       <li style="display: none;" >
+                           <div class="info-content-title">{:lang('commission_history')}</div>
+                           <div class="my-py-list my-py-history clear">
+                               <span style='width:16%'>{:lang('commission_time')}</span>
+                               <span>{:lang('currency')}</span>
+                               <span style='width:6%'>{:lang('types')}</span>
+                               <span>{:lang('number_orders')}</span>
+                               <span>{:lang('commission_price')}</span>
+                               <span>{:lang('number_transactions')}</span>
+                               <span>{:lang('not_sold')}</span>
+                               <span>{:lang('status')}</span>
+                           </div>
+                           <div id='history_list' style="height: 620px;padding-top: 15px;" data_count='{$list.entrust_history_count}'>
+                           		<!--{volist name='$list.entrust_history' id='vo'}
+	                               <div class="my-py-list-one my-py-history-one clear">
+	                                   <span style='width:16%'>{$vo.start_date}</span>
+	                                   <span>{$vo.cur_name}</span>
+	                                   <span style='width:6%'>{$vo.trade_type_text}</span>
+	                                   <span>{$vo.number}</span>
+	                                   <span>{$vo.price}</span>
+	                                   <span>{$vo.deal}</span>
+	                                   <span>{$vo.no_deal}</span>
+	                                   <span class="jiLao"><a href="javascript:;">{$vo.trade_status_text}</a></span>
+	                               </div>
+	                            {/volist}-->
+                           </div>
+                           <div id='history_page' class="change-page"></div>
+                       </li>
+
+                       <li style="display: none;">
+                           <div class="info-content-title">C2C{:lang('order')}</div>
+                           <div class="c2c-tab clear">
+                               <span class="c2c-tab-one c2c-tab-active">{:lang('unpaid')}</span>
+                               <span class="c2c-tab-one">{:lang('already_paid')}</span>
+                               <span class="c2c-tab-one">{:lang('completed')}</span>
+                               <span class="c2c-tab-one">{:lang('cancelled')}</span>
+                           </div>
+
+                           <div style="display: block;" class="c2c-tab-one-content">
+                               <div class="my-py-list my-py-history clear">
+                                   <span>{:lang('order_number')}</span>
+                                   <span>{:lang('types')}</span>
+                                   <span>{:lang('trading_partners')}</span>
+                                   <span>{:lang('quantity')}</span>
+                                   <span>{:lang('amount')}</span>
+                                   <span>{:lang('money')}</span>
+                                   <span>{:lang('creation_time')}</span>
+                                   <span>{:lang('status')}</span>
+                               </div>
+                               <div style="padding-top: 15px;">
+                                   <div style="height: 620px;">
+                                    {volist name="orderlist.list1" id="vo"}
+                                    <div class="my-py-list-one my-py-history-one clear">
+                                           <span>{$vo.order}</span>
+                                           <span>{$vo.order_type}</span>
+                                           <span>{empty name='$vo.name'}-{else/}{$vo.name}{/empty}</span>
+                                           <span>{$vo.price}CNY</span>
+                                           <span>{$vo.order_number}USDT</span>
+                                           <span>{$vo.price*$vo.order_number}CNY</span>
+                                           <span style="font-size: 12px;">{$vo.addtime|date="Y-m-d H:i:s",###}</span>
+                                           <span class="jiLao">{eq name="vo.order_type1" value="1"}<a href="{:url('pay')}?id={$vo.id}">{:lang('unpaid')}</a>{else/}{:lang('unpaid')}
+                                          {/eq}
+                                          </span>
+                                       </div>
+                                    {/volist}
+                                   </div>
+                               </div>
+                           </div>
+
+                           <div class="c2c-tab-one-content">
+                               <div class="my-py-list my-py-history clear">
+                                   <span>{:lang('order_number')}</span>
+                                   <span>{:lang('types')}</span>
+                                   <span>{:lang('trading_partners')}</span>
+                                   <span>{:lang('quantity')}</span>
+                                   <span>{:lang('amount')}</span>
+                                   <span>{:lang('money')}</span>
+                                   <span>{:lang('creation_time')}</span>
+                                   <span>{:lang('status')}</span>
+                               </div>
+                               <div style="padding-top: 15px;">
+                                   <div style="height: 620px;">
+                                    {volist name="orderlist.list2" id="vo"}
+                                    <div class="my-py-list-one my-py-history-one clear">
+                                           <span>{$vo.order}</span>
+                                           <span>{$vo.order_type}</span>
+                                           <span>{empty name='$vo.name'}-{else/}{$vo.name}{/empty}</span>
+                                           <span>{$vo.price}CNY</span>
+                                           <span>{$vo.order_number}USDT</span>
+                                           <span>{$vo.price*$vo.order_number}CNY</span>
+                                           <span style="font-size: 12px;">{$vo.addtime|date="Y-m-d H:i:s",###}</span>
+                                           <span class="jiLao">{eq name="vo.order_type1" value="1"}<a href="{:url('success_pay')}?id={$vo.id}">{:lang('already_paid')}</a>{else/}{:lang('already_paid')}
+                                          {/eq}
+                                          </span>
+                                       </div>
+                                    {/volist}
+                                   </div>
+                               </div>
+                           </div>
+
+                           <div class="c2c-tab-one-content">
+                               <div class="my-py-list my-py-history clear">
+                                   <span>{:lang('order_number')}</span>
+                                   <span>{:lang('types')}</span>
+                                   <span>{:lang('trading_partners')}</span>
+                                   <span>{:lang('quantity')}</span>
+                                   <span>{:lang('amount')}</span>
+                                   <span>{:lang('money')}</span>
+                                   <span>{:lang('creation_time')}</span>
+                                   <span>{:lang('status')}</span>
+                               </div>
+                               <div style="padding-top: 15px;">
+                                   <div style="height: 620px;">
+                                    {volist name="orderlist.list3" id="vo"}
+                                    <div class="my-py-list-one my-py-history-one clear">
+                                           <span>{$vo.order}</span>
+                                           <span>{$vo.order_type}</span>
+                                           <span>{empty name='$vo.name'}-{else/}{$vo.name}{/empty}</span>
+                                           <span>{$vo.price}CNY</span>
+                                           <span>{$vo.order_number}USDT</span>
+                                           <span>{$vo.price*$vo.order_number}CNY</span>
+                                           <span style="font-size: 12px;">{$vo.addtime|date="Y-m-d H:i:s",###}</span>
+                                           <span class="jiLao"><a href="{:url('completed_pay')}?id={$vo.id}">{:lang('completed')}</a></span>
+                                       </div>
+                                    {/volist}
+                                   </div>
+                               </div>
+                           </div>
+
+                           <div class="c2c-tab-one-content">
+                               <div class="my-py-list my-py-history clear">
+                                   <span>{:lang('order_number')}</span>
+                                   <span>{:lang('types')}</span>
+                                   <span>{:lang('trading_partners')}</span>
+                                   <span>{:lang('quantity')}</span>
+                                   <span>{:lang('amount')}</span>
+                                   <span>{:lang('money')}</span>
+                                   <span>{:lang('creation_time')}</span>
+                                   <span>{:lang('status')}</span>
+                               </div>
+                               <div style="padding-top: 15px;">
+                                   <div style="height: 620px;">
+                                    {volist name="orderlist.list4" id="vo"}
+                                    <div class="my-py-list-one my-py-history-one clear">
+                                           <span>{$vo.order}</span>
+                                           <span>{$vo.order_type}</span>
+                                           <span>{empty name='$vo.name'}-{else/}{$vo.name}{/empty}</span>
+                                           <span>{$vo.price}CNY</span>
+                                           <span>{$vo.order_number}USDT</span>
+                                           <span>{$vo.price*$vo.order_number}CNY</span>
+                                           <span style="font-size: 12px;">{$vo.addtime|date="Y-m-d H:i:s",###}</span>
+                                           <span class="jiLao"><a href="javascript:;">{:lang('cancelled')}</a></span>
+                                       </div>
+                                    {/volist}
+                                   </div>
+                               </div>
+                           </div>
+                       </li>
+
+                       <li style="display: none;">
+                           <div class="info-content-title">{:lang('change_password')}</div>
+
+                           <div class="c2c-tab clear">
+                               <span class="c2c-pwd-one tab-t c2c-tab-active">{:lang('mod_l_pwd')}</span>
+                               <span class="c2c-pwd-one tab-t">{:lang('mod_t_pwd')}</span>
+                           </div>
+						           <input id='uid' type='hidden' name='id' value='{$uid}' />
+                           <div style="display: block;" class="tab-c c2c-pwd-one-content">
+                               <div class="change-password">
+                                   <div>
+                                       <span class="what-change">{:lang('original_l_pwd')}:</span>
+                                       <span><input id='login_pwd' type="password" name='password' /></span>
+                                   </div>
+                                   <div>
+                                       <span class="what-change">{:lang('new_l_pwd')}:</span>
+                                       <span><input id='new_login_pwd' type="password" name='new_password' /></span>
+                                   </div>
+                                   <div>
+                                       <span class="what-change">{:lang('confirm_new_l_pwd')}:</span>
+                                       <span><input id='re_new_login_pwd' type="password" name='re_new_password' /></span>
+                                   </div>
+                                   <div>
+                                       <button id='login_pwd_btn' class="button-blue">{:lang('submit')}</button>
+                                   </div>
+                               </div>
+                           </div>
+
+                           <div class="tab-c c2c-pwd-one-content">
+                               <div class="change-password">
+                                   <div>
+                                       <span class="what-change">{:lang('original_t_pwd')}:</span>
+                                       <span><input id='transaction_pwd' type="password" name='payment_password' /></span>
+                                   </div>
+                                   <div>
+                                       <span class="what-change">{:lang('new_t_pwd')}:</span>
+                                       <span><input id='new_transaction_pwd' type="password" name='new_payment_password' /></span>
+                                   </div>
+                                   <div>
+                                       <span class="what-change">{:lang('confirm_new_t_pwd')}:</span>
+                                       <span><input id='re_new_transaction_pwd' type="password" name='re_new_payment_password' /></span>
+                                   </div>
+                                   <div>
+                                       <button id='transaction_pwd_btn' class="button-blue">{:lang('submit')}</button>
+                                   </div>
+                               </div>
+                           </div>
+                       </li>
+
+                       <li style="display: none;">
+                           <div class="info-content-title">{:lang('personal_information')}</div>
+                           <div class="black-line"></div>
+                           <div class="myself-info">
+                               <span class="myself-title">{:lang('user')}ID</span>：
+                               <span class="myself-info-content">{$list.user.id}</span>
+                           </div>
+                           <div class="myself-info">
+                               <span class="myself-title">{:lang('account')}</span>：
+                               <span class="myself-info-content">{$list.user.account}</span>
+                           </div>
+                           <div class="myself-info">
+                               <span class="myself-title">{:lang('nick')}</span>：
+                               <span class="myself-info-content nickname-t">{$list.user.username}</span>
+                               <span class="myself-info-content nickname"><input id='username' type="text" name='username' value='{$list.user.username}' /></span>
+                               <span class="myself-change nickname-c jiLao"><a class='cursor'>{:lang('modify')}</a></span>
+                           </div>
+                           <div class="myself-info">
+                               <span class="myself-title">{:lang('real_name')}</span>：
+                               <span class="myself-info-content">{$list.user.real_name}</span>
+                               <span style="color: #666;" class="myself-change">（{:lang('if_modify')}）</span>
+                           </div>
+                           <div class="myself-info">
+                               <span class="myself-title">{:lang('identity')}</span>：
+                               <span class="myself-info-content">{$list.user.identity}</span>
+                               <span style="color: #666;" class="myself-change">（{:lang('if_modify')}）</span>
+                           </div>
+                           <div class="myself-info">
+                               <span class="myself-title">{:lang('tel')}</span>：
+                               <span class="myself-info-content">{$list.user.tel}</span>
+                           </div>
+                           <div class="myself-info">
+                               <span class="myself-title">{:lang('address')}</span>：
+                               <span class="myself-info-content address-t">{$list.user.address}</span>
+                               <span class="myself-info-content address is_addr">
+                                   <select id="city" name="province"></select>
+                                   <select id="city_2" name="city"></select>
+                                   <select id="city_3" name="area"></select>
+                               </span>
+                               <span class="myself-change jiLao address-c"><a class='cursor'>{:lang('modify')}</a></span>
+                           </div>
+                           <div style="padding-top: 150px;text-align: center;">
+                               <button style="width: 180px;margin-left: 0;" id='mod_user_info' class="button-blue">{:lang('submit')}</button>
+                           </div>
+                       </li>
+
+                       <li style="display: none;">
+                           <div class="info-content-title">{:lang('verified')}</div>
+                           <div class="black-line"></div>
+                           <div class="myself-info">
+                               <span class="myself-title">{:lang('real_name')}</span>：
+                               <span class="myself-info-content">{$list.user.real_name}</span>
+                               <span style="color: #666;" class="myself-change">（{:lang('if_modify')}）</span>
+                           </div>
+                           <div class="myself-info">
+                               <span class="myself-title">{:lang('identity')}</span>：
+                               <span class="myself-info-content">{$list.user.identity}</span>
+                               <span style="color: #666;" class="myself-change">（{:lang('if_modify')}）</span>
+                           </div>
+                           <div class="card-up clear">
+                               <div style="padding: 0 10px;" class="card-up-title">
+                                   	{:lang('upload_ID')}：
+                               </div>
+                               <div class="card-up-content clear">
+                                   <div style="float: left;">
+                                   			{empty name='$list.user.identity_behind'}
+                                       	<div id='identity_behind' class="up-card-img cursor">
+                                           		<p>{:lang('behind_ID')}</p>
+                                           		<div>+</div>
+                                           	{else/}
+                                        <div class="up-card-img">
+                                        	{/empty}
+                                           <img class='identity_behind_img' {empty name='$list.user.identity_behind'}src=''{else/}src='{$list.user.identity_behind}'{/empty} />
+                                       </div>
+                                       		{empty name='$list.user.identity_front'}
+                                        <div id='identity_front' class="up-card-img cursor">
+                                           		<p>{:lang('front_ID')}</p>
+                                           		<div>+</div>
+                                           	{else/}
+                                        <div class="up-card-img">
+                                        	{/empty}
+                                           <img class='identity_front_img' {empty name='$list.user.identity_front'}src=''{else/}src='{$list.user.identity_front}'{/empty} />
+                                       </div>
+                                   </div>
+                                   <div style="float: left;margin-left: 30px;">
+                                       <div style="background: none" class="up-card-img">
+                                           <img src="__IMG__/gerenzhongxin/guohui.png" alt="">
+                                       </div>
+                                       <div style="background: none" class="up-card-img">
+                                           <img src="__IMG__/gerenzhongxin/xinxi.png" alt="">
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+                           <div style="padding-top: 50px;text-align: center;">
+                           		<?php
+                           			if(!$list['user']['identity_behind'] || !$list['user']['identity_front']){
+                           		?>
+                           			<span id='ID_img_span'><button style="width: 180px;margin-left: 0;" id='ID_img_btn' class="button-blue">{:lang('submit')}</button></span>
+                           		<?php
+                           			}
+                           		?>
+                           </div>
+                       </li>
+
+                       <li style="display: none;">
+                           <div class="info-content-title">{:lang('recharge')}</div>
+                           <div class="black-line"></div>
+                           <div class="recharge clear">
+                               <div class="recharge-title">{:lang('recharge_amount')}</div>
+                               <div class="recharge-content">
+                                   <div><input class="recharge-num" type="text" name='cur_num' /><span style="color: #555;font-size: 14px;padding-left: 5px;">USDT</span></div>
+                                   <div class="recharge-content-r">
+                                       <span>
+                                           <input id='wallet' class="choose-re cursor" type="radio" name="type" value='is_wallet' />
+                                           <label for="wallet" class='cursor'>{:lang('wallet_recharge')}</label>
+                                       </span>
+                                       <span id='wallet_address'>{:config('WALLET_ADDRESS')}</span>
+                                   </div>
+                                   <div class="recharge-content-r">
+                                       <span>
+                                           <input id='bank-card' class="choose-re cursor" type="radio" name="type" value='is_bank'>
+                                           <label for="bank-card" class='cursor'>{:lang('bank_card_recharge')}</label>
+                                       </span>
+                                       <span>{:lang('please_transfer')}</span>
+                                   </div>
+                                   <div class="recharge-content-r small-text">
+                                       <span></span>
+                                       <span>{:lang('account_Name')}：<span id='bankname'>{:config('BANK_USER')}</span></span>
+                                   </div>
+                                   <div class="recharge-content-r small-text">
+                                       <span></span>
+                                       <span>{:lang('bank')}：<span id='bank'>{:config('BANK_NAME')}</span></span>
+                                   </div>
+                                   <div class="recharge-content-r small-text">
+                                       <span></span>
+                                       <span>{:lang('account')}：<span id='bankcard'>{:config('BANK_NUMBER')}</span></span>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="recharge-scr clear">
+                               <div class="recharge-scr-title">
+                                   	{:lang('upload_payment')}
+                               </div>
+                               <div class="recharge-scr-content">
+                                   <div id='upload_recharge_pic' class="recharge-scr-img cursor">
+                                       <p>+</p>
+                                       <img class='recharge_img' src=''/>
+                                   </div>
+                                   <div>
+                                       <span><textarea name="remarks" id="recharge_remarks" cols="30" rows="10" placeholder="{:lang('remarks')}"></textarea></span>
+                                       <span style="font-size: 12px;color: #E51C23;padding: 5px 0;display: inline-block">*{:lang('required')}</span>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="recharge-true">
+                               <button style="width: 150px;margin-left: 0;" class="button-blue" id='recharge_btn'>{:lang('confirm_recharge')}</button>
+                               <p style="font-size: 12px;" class="jiLao">{:lang('tips')}</p>
+                           </div>
+                           
+                           <div style="font-size: 14px;" class="info-content-title">{:lang('recharge_record')}</div>
+                           <div class="black-line"></div>
+                           <div class="eth-address eth-address-list clear">
+                               <div class="eth-b" style="width: 8%;">{:lang('Recording')}ID</div>
+                               <div class="eth-b" style="width: 40%;">{:lang('top_up_wallet_address')}</div>
+                               <div class="eth-b" style="width: 8%;">{:lang('recharge_amount')}</div>
+                               <div class="eth-b" style="width: 8%;">{:lang('actual_arrival')}</div>
+                               <div class="eth-b" style="width: 20%;">{:lang('recharge_time')}</div>
+                               <div class="eth-b" style="width: 8%;">{:lang('status')}</div>
+                           </div>
+                           <div id='recharge_list' data_count='{$list.recharge_count}'>
+	                           <!--{volist name='list.recharge_list' id='vo'}
+		                           <div class="eth-address eth-address-list clear">
+		                               <div class="eth-b" style="width: 8%;">{$vo.id}</div>
+		                               <div class="eth-b" style="width: 40%;">{$vo.wallet_adress}</div>
+		                               <div class="eth-b" style="width: 8%;">{$vo.cur_num}</div>
+		                               <div class="eth-b" style="width: 8%;">{$vo.actual}</div>
+		                               <div class="eth-b" style="width: 20%;">{$vo.create_date}</div>
+		                               <div class="eth-b" style="width: 8%;">{$vo.recharge_status_text}</div>
+		                           </div>
+							   {/volist}-->
+						   </div>
+						   <div class='recharge_append'></div>
+                           <div style="padding-top: 80px" id='recharge_page' class="change-page"></div>
+                       </li>
+
+                       <li style="display: none;" class="withdraw">
+                           <div style="padding: 0;" class="info-content-title">{:lang('withdraw')}</div>
+                           <div class="black-line"></div>
+                           <div class="eth-address-title">{:lang('USDT_addr')}</div>
+                           <div class="eth-address clear">
+                               <div class="eth-b" style="width: 10%;">{:lang('address_label')}</div>
+                               <div class="eth-b" style="width: 70%;">{:lang('coin_address')}</div>
+                               <div class="eth-b" style="width: 10%;">{:lang('status')}</div>
+                               <div class="eth-b" style="width: 10%;">{:lang('operating')}</div>
+                           </div>
+                           {volist name='list.withdraw_addr' id='vo'}
+	                           <div class="eth-address clear">
+	                               <div class="eth-b" style="width: 10%;">{$vo.remarks}</div>
+	                               <div class="eth-b" style="width: 70%;">{$vo.withdraw_address}</div>
+	                               <div class="eth-b" style="width: 10%;">{$vo.band}</div>
+	                               <div class="eth-b cursor" onclick='del_address(event,{$vo.id})' style="width: 10%;">{:lang('delete')}</div>
+	                           </div>
+                           {/volist}
+                           <div class='address_append'></div>
+                           <div style="margin-top: 20px;" class="eth-address">
+                               <button class="zi-button zi-button-add">{:lang('add_coin_address')}</button>
+                           </div>
+                           <div style="font-size: 14px;" class="info-content-title">{:lang('withdrawal_amount')}</div>
+                           <div class="black-line"></div>
+                           <div class="choose-withdraw">
+                               <div style="padding: 0;" class="eth-address clear">
+                                   <div class="eth-b" style="width: 10%;">{:lang('amount')}</div>
+                                   <div class="eth-b" style="width: 70%;">
+                                       <input id='input_cur_num' type="text" name='cur_num' placeholder="{:lang('input_amount')}" />
+                                   </div>
+                                   <div class="eth-b" style="width: 20%;font-size: 12px;color: #000;">（{:lang('available')}<b id='available'>{$list.usdt_available}</b> USDT）</div>
+                               </div>
+                           </div>
+                           <div style="padding: 15px 0;" class="choose-withdraw">
+                               <div style="padding: 0;" class="eth-address clear">
+                                   <div class="eth-b" style="width: 10%;">{:lang('actual_arrival')}</div>
+                                   <div class="eth-b" style="width: 70%;">
+                                       <input id='service' type="text" disabled="disabled" value='0.0000'/>
+                                   </div>
+                                   <div class="eth-b" style="width: 20%;font-size: 12px;">{:lang('service_charge')}<b>{:config('WITHDRAW_SERVICE_CHARGE')}%</b></div>
+                               </div>
+                           </div>
+                           <div style='padding-bottom:15px;' class="choose-withdraw">
+                               <div style="padding: 0;" class="eth-address clear">
+                                   <div class="eth-b" style="width: 10%;">{:lang('coin_address')}</div>
+                                   <div class="eth-b" style="width: 70%;">
+                                       <select id='wallet_adress' name='wallet_adress' class='withdraw_select'>
+                                       	<option value='0'>{:lang('address_label')}</option>
+                                       	{volist name='list.withdraw_addr' id='vo'}
+                                       		<option value='{$vo.withdraw_address}'>{$vo.remarks}</option>
+                                       	{/volist}
+                                       </select>
+                                   </div>
+                                   <div class="eth-b" style="width: 20%;font-size: 12px;"></div>
+                               </div>
+                           </div>
+                           <div class="choose-withdraw">
+                               <div style="padding: 0;" class="eth-address clear">
+                                   <div class="eth-b" style="width: 10%;">{:lang('transaction_password')}</div>
+                                   <div class="eth-b" style="width: 70%;">
+                                       <input id='input_payment_password' type="password" name='payment_password' placeholder="{:lang('input_t_pwd')}"/>
+                                   </div>
+                                   <div class="eth-b" style="width: 20%;font-size: 12px;"></div>
+                               </div>
+                           </div>
+                           <div style="margin-top: 30px;" class="eth-address">
+                               <button id='withdraw_btn' class="zi-button">{:lang('confirm_withdrawal')}</button>
+                           </div>
+
+                           <div style="font-size: 14px;" class="info-content-title">{:lang('withdrawal_instructions')}</div>
+                           <div class="black-line"></div>
+                           <div class="bi-explain">
+                               <p>1. {:lang('instructions_one_1')}{:config('WITHDRAW_SERVICE_CHARGE')}%{:lang('instructions_one_2')}</p>
+                               <p>2. {:lang('instructions_two')}</p>
+                           </div>
+
+                           <div style="font-size: 14px;" class="info-content-title">{:lang('withdrawals_record')}</div>
+                           <div class="black-line"></div>
+                           <div class="eth-address eth-address-list clear">
+                               <div class="eth-b" style="width: 8%;">{:lang('Recording')}ID</div>
+                               <div class="eth-b" style="width: 40%;">{:lang('wallet_withdrawal_address')}</div>
+                               <div class="eth-b" style="width: 8%;">{:lang('withdrawal_amount')}</div>
+                               <div class="eth-b" style="width: 8%;">{:lang('actual_arrival')}</div>
+                               <div class="eth-b" style="width: 20%;">{:lang('withdrawal_time')}</div>
+                               <div class="eth-b" style="width: 8%;">{:lang('status')}</div>
+                           </div>
+                           <div id='withdraw_list' data_count='{$list.withdraw_count}'>
+	                           <!--{volist name='list.withdraw_list' id='vo'}
+		                           <div class="eth-address eth-address-list clear">
+		                               <div class="eth-b" style="width: 8%;">{$vo.id}</div>
+		                               <div class="eth-b" style="width: 40%;">{$vo.wallet_adress}</div>
+		                               <div class="eth-b" style="width: 8%;">{$vo.cur_num}</div>
+		                               <div class="eth-b" style="width: 8%;">{$vo.actual}</div>
+		                               <div class="eth-b" style="width: 20%;">{$vo.create_date}</div>
+		                               <div class="eth-b" style="width: 8%;">{$vo.recharge_status_text}</div>
+		                           </div>
+							   {/volist}-->
+						   </div>
+						   <div class='withdraw_append'></div>
+                           <div style="padding-top: 80px" id='withdraw_page' class="change-page"></div>
+                       </li>
+
+                       <li style="display: none;">
+                           <div class="info-content-title">{:lang('user_center')}</div>
+                           <div class="black-line"></div>
+                           <div class="person">
+                               <div style="padding-top: 20px;">{:lang('personal_information')}</div>
+                               <div class="clear">
+                                   <div class="person-img" style="float: left;"><img src="__IMG__/gerenzhongxin/touxiang.png" alt=""></div>
+                                   <div class="person-some-info" style="float: left;">
+                                       <p>
+                                           <span>ID ：{$list.user.id}</span>
+                                           <span style="padding-left: 300px;">{:lang('account')}：{$list.user.account}</span>
+                                       </p>
+                                       <p>{:lang('name')} ： {$list.user.real_name} <span class='band_real_success'>{eq name='$list.user.is_real' value='0'}（{:lang('unreal')}）{else/}（{:lang('certified')}）{/eq}</span></p>
+                                   </div>
+                               </div>
+                               <div class="clear some-mes">
+                                   <span class="some-mes-one-left">{:lang('login_pwd')}：******</span>
+                                   <span onclick="tabJump(6)" class="jiLao some-mes-one-right cursor">{:lang('modify')}</span>
+                               </div>
+                               <div class="clear some-mes">
+                                   <span class="some-mes-one-left">{:lang('transaction_pwd')}：******</span>
+                                   <span onclick="tabJump(6)" class="jiLao some-mes-one-right cursor">{:lang('modify')}</span>
+                               </div>
+                               <div class="clear some-mes">
+                                   <span class="some-mes-one-left">{:lang('verified')}：</span>
+                                   <span class="jiLao some-mes-one-right band_real_success">{eq name='$list.user.is_real' value='0'}{:lang('not_certified')}{else/}{:lang('certified')}{/eq}</span>
+                               </div>
+                               <div class="clear some-mes">
+                                   <span class="some-mes-one-left">{:lang('bind_phone')}：</span><span id='tel_view'>{$list.user.tel}</span>
+                                   <span id='band_tel_success'>{empty name='$list.user.tel'}<span class="jiLao some-mes-one-right bind-phone cursor">{:lang('unbound')}</span>{else/}<span class="jiLao some-mes-one-right">{:lang('binding')}</span>{/empty}</span>
+                               </div>
+                               <div class="clear some-mes">
+                                   <span class="some-mes-one-left">{:lang('bind_private_wallet')}：</span><span id='wallet_view'>{$list.user.wallet}</span>
+                                   <span id='band_wallet_success'>{empty name='$list.user.wallet'}<span class="jiLao some-mes-one-right my-wallet cursor">{:lang('unbound')}</span>{else/}<span class="jiLao some-mes-one-right">{:lang('binding')}</span>{/empty}</span>
+                               </div>
+                               <div class="clear some-mes">
+                                   <span class="some-mes-one-left">{:lang('bind_bank_card')}：</span><span id='bank_number_view'>{$list.user.bank_number}</span>
+                                   <span id='band_bank_success'>{empty name='$list.user.bank_number'}<span class="jiLao some-mes-one-right bind-bank-card cursor">{:lang('unbound')}</span>{else/}<span class="jiLao some-mes-one-right">{:lang('binding')}</span>{/empty}</sapn>
+                               </div>
+                               <div class="clear some-mes">
+                                   <span class="some-mes-one-left">{:lang('bind_alipay')}：</span><span id='alipay_view'>{$list.user.alipay_accout}</span>
+                                   <span id='band_alipay_success'>{empty name='$list.user.alipay_accout'}<span class="jiLao some-mes-one-right bind-alipay cursor">{:lang('unbound')}</span>{else/}<span class="jiLao some-mes-one-right">{:lang('binding')}</span>{/empty}</sapn>
+                               </div>
+                               <div class="clear some-mes">
+                                   <span class="some-mes-one-left">{:lang('bind_wechat')}：</span><span id='wechat_view'>{$list.user.wechat_accout}</span>
+                                   <span id='band_wechat_success'>{empty name='$list.user.wechat_accout'}<span class="jiLao some-mes-one-right bind-wechat cursor">{:lang('unbound')}</span>{else/}<span class="jiLao some-mes-one-right">{:lang('binding')}</span>{/empty}</sapn>
+                               </div>
+                           </div>
+                           
+                           
+                           <div style='display:none;'>
+	                           <div style="padding-top: 60px;" class="other-info">
+	                               <div class="z-money">
+	                                   <span>{:lang('account_assets')}</span>
+	                                   <span>（{:lang('certified')}）</span>
+	                                   <span class="jiLao"><a onclick="tabJump(0)" href="javascript:;">{:lang('see_details')}</a></span>
+	                               </div>
+	                           </div>
+	                           <div class="other-info">
+	                               <div class="z-money">
+	                                   <span>{:lang('total_assets')}：6600.0000 USDT</span>
+	                                   <span class="jiLao"><a onclick="tabJump(9)" href="javascript:;">{:lang('recharge')}</a></span>
+	                                   <span class="jiLao"><a onclick="tabJump(10)" href="javascript:;">{:lang('withdraw')}</a></span>
+	                               </div>
+	                           </div>
+	                           <div class="other-info">
+	                               <div class="z-money">
+	                                   <span>{:lang('available_assets')}：5000.0000 USDT</span>
+	                                   <span>{:lang('frozen_assets')}：1600.0000 USDT</span>
+	                               </div>
+	                           </div>
+                           </div>
+                           
+                           
+                       </li>
+
+                       <li style="display: none;">
+                           <div class="info-content-title">{:lang('invite_friends')}</div>
+                           <div class="black-line"></div>
+
+                           <div class="copy-link-title">
+                               	{:lang('copy_tips')}
+                           </div>
+                           <div class="copy-link-url">
+                               <span><input type="text" id="haiBao" value="{:config('INVITATION_WEB')}?code={$list.user.invitation_code}"/></span>
+                               <span><button id="copy" data-clipboard-target="#haiBao">{:lang('copy_link')}</button></span>
+                           </div>
+                           <div class="my-poster">
+                               <button class="my-poster-button">{:lang('poster')}</button>
+                           </div>
+
+                           <div class="my-team">
+                               <div class="my-team-title">{:lang('my_team')}</div>
+                               <div class="my-team-state">
+                                   <span style="color: #777;">{:lang('my_game')}</span>
+                                   <span>{$list.game.is_out}</span>
+                                   {notempty name='$list.game.status'}
+	                                   <span>
+	                                       <button class="to-button" {eq name='$list.game.status' value='1'}disabled="disabled" style='background-color:gray;' {else/}onclick='link_game()'{/eq}>{:lang('repeat')}</button>
+	                                   </span>
+	                               {/notempty}
+                               </div>
+                           </div>
+
+                           <div class="my-team-list clear">
+                               <span style="text-align: left;">{:lang('total_people')}：{$list.son_count}</span>
+                               <span></span>
+                               <span></span>
+                               <span></span>
+                               <span></span>
+                               <span>{:lang('push_ranking')}</span>
+                               <span>第 {$list.ranking} 名</span>
+                           </div>
+                           <div class="black-line"></div>
+                           <div class="my-team-list clear">
+                               <span>{:lang('nick')}</span>
+                               <span>{:lang('name')}</span>
+                               <span>{:lang('tel')}</span>
+                               <span>{:lang('deposit_amount')}</span>
+                               <span>{:lang('market_contribution_award')}</span>
+                               <span>{:lang('dividend_bonus')}</span>
+                               <span>{:lang('weighted_bonus_award')}</span>
+                           </div>
+                           {volist name='list.son' id='vo'}
+                           <div class="my-team-list my-team-list-one clear">
+                               <span>{$vo.username}<i class="open-child">+</i></span>
+                               <span>{$vo.real_name}</span>
+                               <span>{$vo.tel}</span>
+                               <span>{empty name='$vo.usdt'}--{else/}{$vo.usdt}{/empty}</span>
+                               <span></span>
+                               <span>{empty name='$vo.bonus'}--{else/}{$vo.bonus}{/empty}</span>
+                               <span>{$vo.weighted}</span>
+                           </div>
+                           <div class="child">
+                           		{volist name='vo.grandson' id='vol'}
+	                               <div class="my-team-list my-team-list-one clear">
+	                                   <span>{$vol.username}</span>
+	                                   <span>{empty name='$vol.real_name'}-{else/}{$vol.real_name}{/empty}</span>
+	                                   <span>{$vol.tel}</span>
+	                                   <span>{empty name='$vol.usdt'}--{else/}{$vol.usdt}{/empty}</span>
+	                                   <span></span>
+	                                   <span>{empty name='$vol.bonus'}--{else/}{$vol.bonus}{/empty}</span>
+	                                   <span>{$vol.weighted}</span>
+	                               </div>
+                            	{/volist}
+                           </div>
+                           {/volist}
+                       </li>
+
+                       <li style="display: none;">
+                           <div class="info-content-title">{:lang('system_information')}</div>
+                           <div class="black-line"></div>
+                           <div class="win-list">
+                               <div style="height: 670px;">
+                               		<div id='msg_list' data_count='{$list.msg_count}'>
+                               		<!--{volist name='$list.msg' id='vo'}
+	                                   <div class="root-message clear" data='{$vo.id}'>
+	                                       <span class="root-message-title">{eq name='lang' value='1'}{$vo.en_title}{else/}{$vo.title}{/eq}</span>
+	                                       <span class="root-message-time">{$vo.create_date}</span>
+	                                   </div>
+                                   	{/volist}-->
+                                   	</div>
+                                   	<div id='msg_append'></div>
+                               </div>
+                               <div id='msg_page' class="change-page"></div>
+                           </div>
+                           <div class="winmsd">
+                               <div class="w-title"></div>
+                               <div class="w-time"></div>
+                               <div class="w-content"></div>
+                               <div class="back-w">
+                                   <span>{:lang('back_list')}</span>
+                               </div>
+                           </div>
+                       </li>
+                   </ol>
+               </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="find-reg-success repeal-z">
+    <div style="background: rgba(0,0,0,0.4)" class="model"></div>
+    <div class="repeal">
+        <div class="true-repeal-text">{:lang('confirm_commission')}</div>
+        <div class="true-repeal"><button>{:lang('submit')}</button></div>
+        <span class="iconfont icon-guanbi"></span>
+    </div>
+</div>
+
+<div class="find-reg-success bi-address-z">
+    <div style="background: rgba(0,0,0,0.4)" class="model"></div>
+    <div class="repeal add-bi-address">
+        <div class="new-address-title">{:lang('add_coin_address')}</div>
+        <div class="new-address-content">
+            <i>{:lang('address_label')}</i>
+            <i><input id='remarks' type="text" name='remarks' placeholder="{:lang('example_one')}"/></i>
+        </div>
+        <div class="new-address-content">
+            <i>{:lang('coin_address')}</i>
+            <i><input id='withdraw_address' type="text" name='withdraw_address' placeholder="{:lang('example_two')}"/></i>
+        </div>
+        <div class="address-tool">
+            <i><button style="background: #8666FF;" id='add_withdraw_addr' class="address-button">{:lang('submit')}</button></i>
+            <i><button class="address-button cancel">{:lang('cancel')}</button></i>
+        </div>
+    </div>
+</div>
+
+<div class="find-reg-success band-phone">
+    <div style="background: rgba(0,0,0,0.4)" class="model"></div>
+    <div class="repeal add-bi-address">
+        <div style="padding: 40px 0;" class="new-address-title">{:lang('bind_phone')}</div>
+        <div class="new-address-content">
+            <i>{:lang('tel')}</i>
+            <i><input id='tel' type="text" name='tel' placeholder="{:lang('input_phone')}"/></i>
+        </div>
+        <div class="address-tool">
+            <i><button style="background: #8666FF;" id='band_tel' class="address-button">{:lang('submit')}</button></i>
+            <i><button class="address-button cancel-phone">{:lang('cancel')}</button></i>
+        </div>
+    </div>
+</div>
+
+<div class="find-reg-success band-wallet">
+    <div style="background: rgba(0,0,0,0.4)" class="model"></div>
+    <div class="repeal add-bi-address">
+        <div style="padding: 40px 0;" class="new-address-title">{:lang('bind_private_wallet')}</div>
+        <div class="new-address-content">
+            <i style="width: 90px;">{:lang('bind_private_wallet')}</i>
+            <i><input id='band_wallet' type="text" name='wallet' placeholder="{:lang('input_wallet')}"/></i>
+        </div>
+        <div class="address-tool">
+            <i><button style="background: #8666FF;" id='band_wallet_btn' class="address-button">{:lang('submit')}</button></i>
+            <i><button class="address-button cancel-wallet">{:lang('cancel')}</button></i>
+        </div>
+    </div>
+</div>
+
+<div class="find-reg-success band-bank-card">
+    <div style="background: rgba(0,0,0,0.4)" class="model"></div>
+    <div class="repeal add-bi-address band-bank-card-box">
+        <div style="padding: 30px 0;" class="new-address-title">{:lang('bind_bank_card')}</div>
+        <div class="new-address-content">
+            <i>{:lang('name')}</i>
+            <i><input id='bank_user' type="text" name='bank_user' placeholder=""/></i>
+        </div>
+        <div class="new-address-content">
+            <i>{:lang('bank')}</i>
+            <i><input id='bank_name' type="text" name='bank_name' placeholder=""/></i>
+        </div>
+        <div class="new-address-content">
+            <i>{:lang('card_number')}</i>
+            <i><input id='bank_number' type="text" name='bank_number' placeholder=""/></i>
+        </div>
+        <div class="new-address-content">
+            <i>{:lang('reserve_phone')}</i>
+            <i><input id='bank_tel' type="text" name='bank_tel' placeholder=""/></i>
+        </div>
+        <div class="address-tool">
+            <i><button style="background: #8666FF;" id='band_bank_btn' class="address-button">{:lang('submit')}</button></i>
+            <i><button class="address-button cancel-band-bank-card">{:lang('cancel')}</button></i>
+        </div>
+    </div>
+</div>
+
+<div class="find-reg-success band-alipay">
+    <div style="background: rgba(0,0,0,0.4)" class="model"></div>
+    <div class="repeal add-bi-address">
+        <div style="padding: 40px 0;" class="new-address-title">{:lang('bind_alipay')}</div>
+        <div class="new-address-content">
+            <i style="width: 90px;">{:lang('bind_alipay')}</i>
+            <i><input id='band_alipay' type="text" name='alipay_account' placeholder="{:lang('input_alipay')}"/></i>
+        </div>
+        <div class="address-tool">
+            <i><button style="background: #8666FF;" id='band_alipay_btn' class="address-button">{:lang('submit')}</button></i>
+            <i><button class="address-button cancel-alipay">{:lang('cancel')}</button></i>
+        </div>
+    </div>
+</div>
+
+<div class="find-reg-success band-wechat">
+    <div style="background: rgba(0,0,0,0.4)" class="model"></div>
+    <div class="repeal add-bi-address">
+        <div style="padding: 40px 0;" class="new-address-title">{:lang('bind_wechat')}</div>
+        <div class="new-address-content">
+            <i style="width: 90px;">{:lang('bind_wechat')}</i>
+            <i><input id='band_wechat' type="text" name='wechat_account' placeholder="{:lang('input_wechat')}"/></i>
+        </div>
+        <div class="address-tool">
+            <i><button style="background: #8666FF;" id='band_wechat_btn' class="address-button">{:lang('submit')}</button></i>
+            <i><button class="address-button cancel-wechat">{:lang('cancel')}</button></i>
+        </div>
+    </div>
+</div>
+
+<div class="placard">
+    <img src="__IMG__/gerenzhongxin/haibao.png" alt="">
+    <img class='invitation_qrcode' src='{$list.user.invitation_qrcode}' />
+</div>
+{include file='common/bottom' /}
+<input type="file" id="file" accept="image/jpg,image/jpeg,image/png" style="display: none;">
+<link rel="stylesheet" href="__LAYUI__/css/layui.css" media="all" />
+<script src="__LAYUI__/layui.js"></script>
+<script src="__JS__/layer/layer.js"></script>
+<script>
+    var jump = {$jump};
+    if(jump == 1){
+    	$('.my-all-info li').removeClass('menu-li-active')
+        $('.my-all-info li').eq(5).addClass('menu-li-active')
+        $('.my-all-info-content li').hide()
+        $('.my-all-info-content li').eq(5).show()
+    }
+    let city = zcityData
+    for(let i=0;i<city['0'].length;i++){
+        $('#city').append('<option data="'+ city['0'][i] +'" value='+ i +'>'+ city['0'][i] +'</option>')
+    }
+    for(let i=0;i<city['0_0'].length;i++){
+        $('#city_2').append('<option value='+ i +'>'+ city['0_0'][i] +'</option>')
+    }
+    for(let i=0;i<city['0_0_0'].length;i++){
+        $('#city_3').append('<option value='+ i +'>'+ city['0_0_0'][i] +'</option>')
+    }
+    $('#city').change(function () {
+        $('#city_2').html('')
+        $('#city_3').html('')
+        let _val = '0' + '_' + $('#city').val()
+        let _default = '0' + '_' + $('#city').val() + '_' + '0'
+        for(let i=0;i<city[_val].length;i++){
+            $('#city_2').append('<option value='+ i +'>'+ city[_val][i] +'</option>')
+        }
+        for(let i=0;i<city[_default].length;i++){
+            $('#city_3').append('<option value='+ i +'>'+ city[_default][i] +'</option>')
+        }
+    })
+    $('#city_2').change(function () {
+        $('#city_3').html('')
+        let _default_3 = '0' + '_' + $('#city').val() + '_' + $('#city_2').val()
+        for(let i=0;i<city[_default_3].length;i++){
+            $('#city_3').append('<option value='+ i +'>'+ city[_default_3][i] +'</option>')
+        }
+    })
+    function shipSuc (text) {
+        spop({
+            template: text,
+            position  : 'top-center',
+            style: 'success',
+            autoclose: 2000
+        });
+    }
+    function shipWar (text) {
+        spop({
+            template: text,
+            position  : 'top-center',
+            style: 'error',
+            autoclose: 2000
+        });
+    }
+    let clipboard = new ClipboardJS('#copy');
+    clipboard.on("success", function(){
+        shipSuc("{eq name='lang' value='1'}Successful copy!{else/}复制成功！{/eq}");
+    });
+    clipboard.on("error", function(){
+        shipSuc("{eq name='lang' value='1'}Unknown mistake!{else/}未知错误！{/eq}");
+    });
+
+    function tabMenu (eleTitle,eleContent,classNa,t) {
+        eleTitle.click(function () {
+            eleTitle.removeClass(classNa)
+            $(this).addClass(classNa)
+            eleContent.hide()
+            eleContent.eq(eleTitle.index($(this))).show(t)
+        })
+    }
+
+    function tabJump (i) {
+        $('.my-all-info li').removeClass('menu-li-active')
+        $('.my-all-info li').eq(i).addClass('menu-li-active')
+        $('.my-all-info-content li').hide()
+        $('.my-all-info-content li').eq(i).show()
+    }
+    tabMenu ($('.c2c-tab-one'),$('.c2c-tab-one-content'),'c2c-tab-active',350);
+    tabMenu ($('.c2c-pwd-one'),$('.c2c-pwd-one-content'),'c2c-tab-active',350);
+    tabMenu ($('.my-all-info li'),$('.my-all-info-content li'),'menu-li-active',0);
+
+    $('.nickname-c').click(function () {
+        $(this).hide()
+        $('.nickname-t').hide()
+        $('.nickname').show()
+    })
+
+    $('.address-c').click(function () {
+        $(this).hide()
+      $('.address-t').hide()
+      $('.address').show()
+      $('.address').removeClass('is_addr');
+    })
+
+    $('.zi-button-add').click(function () {
+        $('.bi-address-z').show(300)
+        $('body').css('overflow','hidden')
+    })
+
+    $('.cancel').click(function () {
+        $('.bi-address-z').hide(300)
+        $('body').removeAttr('style')
+        $('#remarks').val('');
+        $('#withdraw_address').val('');
+    })
+
+    $('.bind-phone').click(function () {
+        $('.band-phone').show(300)
+        $('body').css('overflow','hidden')
+    })
+
+    $('.cancel-phone').click(function () {
+        $('.band-phone').hide(300)
+        $('body').removeAttr('style')
+        $('#tel').val('');
+    })
+
+    $('.my-wallet').click(function () {
+        $('.band-wallet').show(300)
+        $('body').css('overflow','hidden')
+    })
+
+    $('.cancel-wallet').click(function () {
+        $('.band-wallet').hide(300)
+        $('body').removeAttr('style')
+        $('#band_wallet').val('');
+    })
+
+    $('.bind-bank-card').click(function () {
+        $('.band-bank-card').show(300)
+        $('body').css('overflow','hidden')
+    })
+    
+    $('.cancel-band-bank-card').click(function () {
+        $('.band-bank-card').hide(300)
+        $('body').removeAttr('style')
+        $('#bank_user').val('');
+        $('#bank_name').val('');
+        $('#bank_number').val('');
+        $('#bank_tel').val('');
+    })
+	
+	$('.bind-alipay').click(function () {
+        $('.band-alipay').show(300)
+        $('body').css('overflow','hidden')
+    })
+	
+	$('.cancel-alipay').click(function () {
+        $('.band-alipay').hide(300)
+        $('body').removeAttr('style')
+        $('#band_alipay').val('');
+    })
+	
+	$('.bind-wechat').click(function () {
+        $('.band-wechat').show(300)
+        $('body').css('overflow','hidden')
+    })
+	
+	$('.cancel-wechat').click(function () {
+        $('.band-wechat').hide(300)
+        $('body').removeAttr('style')
+        $('#band_wechat').val('');
+    })
+
+
+    $('.language').click(function () {
+        $('.choose-language').show(200)
+    })
+    $('.choose-language').mouseleave(function () {
+        $('.choose-language').hide(200)
+        return
+    }).click(function () {
+        $('.choose-language').hide(200)
+        return
+    })
+
+    let _index = -1
+    let i = true
+    $('.open-child').click(function () {
+        if($('.open-child').index($(this)) == _index){
+            if(i){
+                $('.child').eq($('.open-child').index($(this))).show(300)
+                i=false
+            }else {
+                $('.child').eq($('.open-child').index($(this))).hide(300)
+                i=true
+            }
+        }else {
+            $('.child').hide(300)
+            $('.child').eq($('.open-child').index($(this))).show(300)
+            _index = $('.open-child').index($(this))
+            i = false
+        }
+    })
+
+    $('.my-poster-button').click(function () {
+        $('.placard').show(400)
+    })
+    $('.placard').click(function () {
+        $(this).hide(200)
+    })
+    
+    $('.back-w span').click(function () {
+        $('.winmsd').hide()
+        $('.win-list').show()
+    })
+
+    let _dom = ''
+    function upImg (ele) {
+        _dom = ele
+        console.log(_dom)
+        $('#file').click()
+    }
+    $('#file').change(function () {
+        let file = document.getElementById('file')
+        let fileList = file.files
+        if (fileList.length !== 0) {
+            let url = window.URL.createObjectURL(fileList[0])
+            _dom.html('<img src="'+ url +'">')
+            _dom = ''
+            $('#file').val('')
+        }
+    })
+    
+    // 获取UID
+    var uid = $('#uid').val();
+    
+    // 提交取消委托
+    function cancel_commission(e,id,uid){
+    	layer.confirm('{eq name="lang" value="1"}You sure you want to delete it?{else/}确定要删除吗？{/eq}', {
+			btn: ['{eq name="lang" value="1"}Yes','No{else/}确定','关闭{/eq}'] //按钮
+		}, function(cancel_confirm){
+	    	$.ajax({
+	    		type:'post',
+	    		url:'{:url("cancel_commission")}',
+	    		data:{id:id,uid:uid},
+	    		success:function(ret){
+	    			if(ret.code === 0){
+	    				shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+	    			}else{
+	    				shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+	    				entrust_manage_list(1);
+	    			}
+	    		}
+	    	});
+	    	layer.close(cancel_confirm);
+	    });
+    }
+    
+    // 提交修改登陆密码
+    $('#login_pwd_btn').click(function(){
+    	var old_pwd = $('#login_pwd').val();
+    	var new_pwd = $('#new_login_pwd').val();
+    	var re_new_pwd = $('#re_new_login_pwd').val();
+    	var arr = {
+    		uid:uid,
+    		old_pwd:old_pwd,
+    		new_pwd:new_pwd,
+    		re_new_pwd:re_new_pwd
+    	};
+    	$.ajax({
+    		type:'post',
+    		url:'{:url("mod_login_pwd")}',
+    		data:arr,
+    		success:function(ret){
+    			if(ret.code === 0){
+    				shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+    			}else{
+    				shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+    				$('#login_pwd').val('');
+    				$('#new_login_pwd').val('');
+    				$('#re_new_login_pwd').val('');
+    			}
+    		}
+    	});
+    });
+    
+    // 提交修改交易密码
+    $('#transaction_pwd_btn').click(function(){
+    	var old_pwd = $('#transaction_pwd').val();
+    	var new_pwd = $('#new_transaction_pwd').val();
+    	var re_new_pwd = $('#re_new_transaction_pwd').val();
+    	var arr = {
+    		uid:uid,
+    		old_pwd:old_pwd,
+    		new_pwd:new_pwd,
+    		re_new_pwd:re_new_pwd
+    	};
+    	$.ajax({
+    		type:'post',
+    		url:'{:url("mod_transaction_pwd")}',
+    		data:arr,
+    		success:function(ret){
+    			if(ret.code === 0){
+    				shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+    			}else{
+    				shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+    				$('#transaction_pwd').val('');
+    				$('#new_transaction_pwd').val('');
+    				$('#re_new_transaction_pwd').val('');
+    			}
+    		}
+    	});
+    });
+    
+    // 提交修改个人信息
+    $('#mod_user_info').click(function(){
+    	var username = $('#username').val();
+    	// 判断是否修改地址
+    	var has_class = $('.address').hasClass('is_addr');
+    	if(has_class === false){
+	    	var province = $('#city').children('option:selected').attr('data');
+	    	var city = $('#city_2').children('option:selected').html();
+	    	var area = $('#city_3').children('option:selected').html();
+	    	var address = province+' '+city+' '+area;
+    	}
+    	var arr = {
+    		uid:uid,
+    		username:username,
+    		address:address
+    	}
+    	$.ajax({
+    		type:'post',
+    		url:'{:url("mod_personal_info")}',
+    		data:arr,
+    		success:function(ret){
+    			if(ret.code === 0){
+    				shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq})
+    			}else{
+    				shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+    				// 显示昵称/隐藏修改框
+    				$('.nickname-c').show();
+    				$('.nickname-t').show().html(ret.data.username);
+        			$('.nickname').hide();
+        			// 显示所在地址/隐藏地址下拉菜单
+        			$('.address-c').show();
+        			$('.address-t').show().html(ret.data.address);
+    				$('.address').hide();
+    				$('.address').addClass('address');
+    			}
+    		}
+    	});
+    });
+	
+    // 提交身份证背面
+	layui.use('upload',function(){
+		var upload = layui.upload;
+		var uploadInst = upload.render({
+			elem:'#identity_behind',
+			url:'{:url("upload_pic")}',
+			data:{type:'user/detail',uid:uid},
+			done:function(ret){
+				if(ret.code === 0){
+					shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+				}else{
+					shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+					$('#identity_behind').find('p').hide();
+					$('#identity_behind').find('div').hide();
+					$('.identity_behind_img').attr('src',ret.url).show();
+				}
+			}
+		});
+	});
+	
+	// 提交身份证正面
+	layui.use('upload',function(){
+		var upload = layui.upload;
+		var uploadInst = upload.render({
+			elem:'#identity_front',
+			url:'{:url("upload_pic")}',
+			data:{type:'user/detail',uid:uid},
+			done:function(ret){
+				if(ret.code === 0){
+					shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+				}else{
+					shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+					$('#identity_front').find('p').hide();
+					$('#identity_front').find('div').hide();
+					$('.identity_front_img').attr('src',ret.url).show();
+				}
+			}
+		});
+	});
+	
+	// 提交实名认证
+	$('#ID_img_btn').click(function(){
+		var identity_front = $('.identity_front_img').attr('src');
+		var identity_behind = $('.identity_behind_img').attr('src');
+		var arr = {
+			uid:uid,
+			identity_front:identity_front,
+			identity_behind:identity_behind
+		}
+		var msg_html = '';
+		$.ajax({
+			type:'post',
+			url:'{:url("mod_ID_img")}',
+			data:arr,
+			success:function(ret){
+				if(ret.code === 0){
+					shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+				}else{
+					shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+					$('.band_real_success').html('{eq name="lang" value="1"}Verified{else/}已认证{/eq}');
+					// 修改为不可再上传
+					$('.up-card-img').removeClass('cursor');
+					$('.up-card-img').unbind();
+					$('#ID_img_span').html('');
+					// 在系统消息中添加数据
+//					msg_html += '<div class="root-message clear">';
+//	                msg_html += '<span class="root-message-title">{eq name="lang" value="1"}'+ret.data.en_title+'{else/}'+ret.data.title+'{/eq}</span>';
+//	                msg_html += '<span class="root-message-time">'+ret.data.create_date+'</span>';
+//	                msg_html += '</div>';
+				}
+				$('#msg_append').html(msg_html);
+			}
+		});
+	});
+	
+	// 提交支付截图
+	layui.use('upload',function(){
+		var upload = layui.upload;
+		var uploadInst = upload.render({
+			elem:'#upload_recharge_pic',
+			url:'{:url("upload_pic")}',
+			data:{type:'user/recharge',uid:uid},
+			done:function(ret){
+				if(ret.code === 0){
+					shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+				}else{
+					shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+					$('#upload_recharge_pic').find('p').hide();
+					$('.recharge_img').attr('src',ret.url).show();
+				}
+			}
+		});
+	});
+	
+	// 充值提交表单
+	$('#recharge_btn').click(function(){
+		var cur_num = $('.recharge-num').val();
+		var choose = $("input[name='type']:checked").val();
+		if(choose === 'is_wallet'){
+			var wallet_adress = $('#wallet_address').html();
+		}
+		if(choose === 'is_bank'){
+			var bankname = $('#bankname').html();
+			var bank = $('#bank').html();
+			var bankcard = $('#bankcard').html();
+		}
+		var url = $('.recharge_img').attr('src');
+		var remarks = $('#recharge_remarks').val();
+		var arr = {
+			uid:uid,
+			cur_num:cur_num,
+			choose:choose,
+			wallet_adress:wallet_adress,
+			bankname:bankname,
+			bank:bank,
+			bankcard:bankcard,
+			url:url,
+			remarks:remarks
+		}
+		$.ajax({
+			type:'post',
+			url:'{:url("recharge")}',
+			data:arr,
+			success:function(ret){
+				if(ret.code === 0){
+					shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+				}else{
+					shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+				}
+			}
+		});
+	});
+	
+	// 提交添加提币地址
+	$('#add_withdraw_addr').click(function(){
+		var remarks = $('#remarks').val();
+		var withdraw_address = $('#withdraw_address').val();
+		var arr = {
+			uid:uid,
+			remarks:remarks,
+			withdraw_address:withdraw_address
+		}
+		var addr_html = '';
+		$.ajax({
+			type:'post',
+			url:'{:url("add_withdraw_addr")}',
+			data:arr,
+			success:function(ret){
+				if(ret.code === 0){
+					shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+				}else{
+					shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+					$('.bi-address-z').hide(300);
+        			$('body').removeAttr('style');
+        			addr_html += '<div class="eth-address clear">';
+	                addr_html += '<div class="eth-b" style="width: 10%;">'+ret.data.remarks+'</div>';
+	                addr_html += '<div class="eth-b" style="width: 70%;">'+ret.data.withdraw_address+'</div>';
+	                addr_html += '<div class="eth-b" style="width: 10%;">'+ret.data.band+'</div>';
+	                addr_html += '<div class="eth-b cursor" onclick="del_address(event,'+ret.data.id+')" style="width: 10%;">删除</div>';
+	                addr_html += '</div>';
+				}
+				$('.address_append').append(addr_html);
+			}
+		});
+	});
+	
+	// 删除提币地址
+	function del_address(e,id){
+		var sub = confirm('{eq name="lang" value="1"}Are you sure you want to delete this address{else/}确定要删除该地址吗{/eq}?');
+		if(sub === true){
+			$.ajax({
+				type:'post',
+				url:'{:url("del_addr")}',
+				data:{id:id},
+				success:function(ret){
+					if(ret.code === 0){
+						shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+					}else{
+						shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+						$(e.target).parents(".eth-address").remove();
+					}
+				}
+			});
+		}
+	}
+	
+	// 计算出最大提现&实际到账金额
+	$('#input_cur_num').change(function(){
+		// 最大提现
+		var available = $('#available').html();
+		var current = $(this).val();
+		if(current > available){
+			$(this).val(available);
+		}
+		
+		// 实际到账
+		var cur_num = $(this).val();
+		$.ajax({
+			type:'post',
+			url:'{:url("withdraw_service")}',
+			data:{cur_num:cur_num},
+			success:function(ret){
+				if(ret.code === 0){
+					shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+				}else{
+					$('#service').val(ret.data);
+				}
+			}
+		});
+	});
+	
+	// 点击提交提现申请
+	$('#withdraw_btn').click(function(){
+		var cur_num = $('#input_cur_num').val();
+		var service_charge = $('#service').val();
+		var wallet_adress = $('#wallet_adress').val();
+		var payment_password = $('#input_payment_password').val();
+		var arr = {
+			uid:uid,
+			cur_num:cur_num,
+			service_charge:service_charge,
+			wallet_adress:wallet_adress,
+			payment_password:payment_password
+		}
+		var withdraw_html = '';
+		$.ajax({
+			type:'post',
+			url:'{:url("withdraw")}',
+			data:arr,
+			success:function(ret){
+				if(ret.code === 0){
+					shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+				}else{
+					shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+					$('#input_cur_num').val('');
+					$('#service').val('0.0000');
+					$('#wallet_adress').val('');
+					$('#input_payment_password').val('');
+					withdraw_html += '<div class="eth-address eth-address-list clear">';
+	                withdraw_html += '<div class="eth-b" style="width: 8%;">'+ret.data.id+'</div>';
+	                withdraw_html += '<div class="eth-b" style="width: 40%;">'+ret.data.wallet_adress+'</div>';
+	                withdraw_html += '<div class="eth-b" style="width: 8%;">'+ret.data.cur_num+'</div>';
+	                withdraw_html += '<div class="eth-b" style="width: 8%;">'+ret.data.actual+'</div>';
+	                withdraw_html += '<div class="eth-b" style="width: 20%;">'+ret.data.create_date+'</div>';
+	                withdraw_html += '<div class="eth-b" style="width: 8%;">'+ret.data.recharge_status_text+'</div>';
+	                withdraw_html += '</div>';
+				}
+				$('.withdraw_append').append(withdraw_html);
+			}
+		});
+	});
+	
+	// 点击绑定手机
+	$('#band_tel').click(function(){
+		var tel = $('#tel').val();
+		$.ajax({
+			type:'post',
+			url:'{:url("band_tel")}',
+			data:{uid:uid,tel:tel},
+			success:function(ret){
+				if(ret.code === 0){
+					shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+				}else{
+					shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+					$('.band-phone').hide(300)
+        			$('body').removeAttr('style')
+        			$('#tel_view').html({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+					$('#band_tel_success').html('<span class="jiLao some-mes-one-right">已绑定</span>');
+				}
+			}
+		});
+	});
+	
+	// 点击绑定私人钱包
+	$('#band_wallet_btn').click(function(){
+		var band_wallet = $('#band_wallet').val();
+		$.ajax({
+			type:'post',
+			url:'{:url("band_wallet")}',
+			data:{uid:uid,wallet:band_wallet},
+			success:function(ret){
+				if(ret.code === 0){
+					shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+				}else{
+					shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+					$('.band-wallet').hide(300)
+        			$('body').removeAttr('style')
+        			$('#wallet_view').html(ret.data);
+        			$('#band_wallet_success').html('<span class="jiLao some-mes-one-right">已绑定</span>');
+				}
+			}
+		});
+	});
+	
+	// 点击绑定银行卡
+	$('#band_bank_btn').click(function(){
+		var bank_user = $('#bank_user').val();
+		var bank_name = $('#bank_name').val();
+		var bank_number = $('#bank_number').val();
+		var bank_tel = $('#bank_tel').val();
+		var arr = {
+			uid:uid,
+			bank_user:bank_user,
+			bank_name:bank_name,
+			bank_number:bank_number,
+			bank_tel:bank_tel
+		}
+		$.ajax({
+			type:'post',
+			url:'{:url("band_bank")}',
+			data:arr,
+			success:function(ret){
+				if(ret.code === 0){
+					shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+				}else{
+					shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+					$('.band-bank-card').hide(300)
+        			$('body').removeAttr('style')
+        			$('#bank_number_view').html(ret.data);
+      				$('#band_bank_success').html('<span class="jiLao some-mes-one-right">已绑定</span>');
+				}
+			}
+		});
+	});
+	
+	// 点击绑定支付宝
+	$('#band_alipay_btn').click(function(){
+		var alipay_account = $('#band_alipay').val();
+		var arr = {
+			uid:uid,
+			alipay_account:alipay_account
+		}
+		$.ajax({
+			type:'post',
+			url:'{:url("band_alipay")}',
+			data:arr,
+			success:function(ret){
+				if(ret.code === 0){
+					shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+				}else{
+					shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+					$('.band-alipay').hide(300)
+        			$('body').removeAttr('style')
+        			$('#alipay_view').html(ret.data);
+        			$('#band_alipay_success').html('<span class="jiLao some-mes-one-right">已绑定</span>');
+				}
+			}
+		});
+	});
+	
+	// 点击绑定微信
+	$('#band_wechat_btn').click(function(){
+		var wechat_account = $('#band_wechat').val();
+		var arr = {
+			uid:uid,
+			wechat_account:wechat_account
+		}
+		$.ajax({
+			type:'post',
+			url:'{:url("band_wechat")}',
+			data:arr,
+			success:function(ret){
+				if(ret.code === 0){
+					shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+				}else{
+					shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+					$('.band-wechat').hide(300)
+        			$('body').removeAttr('style')
+        			$('#wechat_view').html(ret.data);
+        			$('#band_wechat_success').html('<span class="jiLao some-mes-one-right">已绑定</span>');
+				}
+			}
+		});
+	});
+	
+	// 游戏复投
+	function link_game(){
+		window.location.href = '{:url("game/index")}';
+	}
+	
+	// 分页功能
+	var page;
+	$(document).ready(function(){
+		// 读取财务日志分页
+		log_list();
+		layui.use('laypage', function(){
+		  var logpage = layui.laypage;
+		  // 执行一个laypage实例
+		  logpage.render({
+		    elem: 'log_page', 	// 注意，这里的 msg_page 是 ID，不用加 # 号
+		    count: $('#log_list').attr('data_count'), 			// 数据总数，从服务端得到
+		    curr: page,
+			limit: 15,
+		    layout: ['count','prev','page','next','refresh', 'skip'],
+		    jump: function(obj,first){
+		      page = obj.curr;
+		      if(!first){
+		      	log_list(page);
+		      }
+		    }
+		  });
+		});
+		
+		// 读取委托管理分页
+		entrust_manage_list();
+		layui.use('laypage', function(){
+		  var entrust_manage_listpage = layui.laypage;
+		  // 执行一个laypage实例
+		  entrust_manage_listpage.render({
+		    elem: 'entrust_manage_page', 	// 注意，这里的 msg_page 是 ID，不用加 # 号
+		    count: $('#entrust_manage_list').attr('data_count'), 			// 数据总数，从服务端得到
+		    curr: page,
+		    layout: ['count','prev','page','next','refresh', 'skip'],
+		    jump: function(obj,first){
+		      page = obj.curr;
+		      if(!first){
+		      	entrust_manage_list(page);
+		      }
+		    }
+		  });
+		});
+		
+		// 读取我的成交分页
+		deal_list();
+		layui.use('laypage', function(){
+		  var deal_listpage = layui.laypage;
+		  // 执行一个laypage实例
+		  deal_listpage.render({
+		    elem: 'deal_page', 	// 注意，这里的 msg_page 是 ID，不用加 # 号
+		    count: $('#deal_list').attr('data_count'), 			// 数据总数，从服务端得到
+		    curr: page,
+			limit: 15,
+		    layout: ['count','prev','page','next','refresh', 'skip'],
+		    jump: function(obj,first){
+		      page = obj.curr;
+		      if(!first){
+		      	deal_list(page);
+		      }
+		    }
+		  });
+		});
+		
+		// 读取委托历史分页
+		history_list();
+		layui.use('laypage', function(){
+		  var history_listpage = layui.laypage;
+		  // 执行一个laypage实例
+		  history_listpage.render({
+		    elem: 'history_page', 	// 注意，这里的 msg_page 是 ID，不用加 # 号
+		    count: $('#history_list').attr('data_count'), 			// 数据总数，从服务端得到
+		    curr: page,
+			limit: 15,
+		    layout: ['count','prev','page','next','refresh', 'skip'],
+		    jump: function(obj,first){
+		      page = obj.curr;
+		      if(!first){
+		      	history_list(page);
+		      }
+		    }
+		  });
+		});
+		
+		// 读取充值记录分页
+		recharge_list();
+		layui.use('laypage', function(){
+		  var recharge_listpage = layui.laypage;
+		  // 执行一个laypage实例
+		  recharge_listpage.render({
+		    elem: 'recharge_page', 	// 注意，这里的 msg_page 是 ID，不用加 # 号
+		    count: $('#recharge_list').attr('data_count'), 			// 数据总数，从服务端得到
+		    curr: page,
+			limit: 5,
+		    layout: ['count','prev','page','next','refresh', 'skip'],
+		    jump: function(obj,first){
+		      page = obj.curr;
+		      if(!first){
+		      	recharge_list(page);
+		      }
+		    }
+		  });
+		});
+		
+		// 读取提现记录分页
+		withdraw_list();
+		layui.use('laypage', function(){
+		  var withdraw_listpage = layui.laypage;
+		  // 执行一个laypage实例
+		  withdraw_listpage.render({
+		    elem: 'withdraw_page', 	// 注意，这里的 msg_page 是 ID，不用加 # 号
+		    count: $('#withdraw_list').attr('data_count'), 			// 数据总数，从服务端得到
+		    curr: page,
+			limit: 5,
+		    layout: ['count','prev','page','next','refresh', 'skip'],
+		    jump: function(obj,first){
+		      page = obj.curr;
+		      if(!first){
+		      	withdraw_list(page);
+		      }
+		    }
+		  });
+		});
+		
+		// 读取系统消息分页
+		msg_list();
+		layui.use('laypage', function(){
+		  var msgpage = layui.laypage;
+		  // 执行一个laypage实例
+		  msgpage.render({
+		    elem: 'msg_page', 	// 注意，这里的 msg_page 是 ID，不用加 # 号
+		    count: $('#msg_list').attr('data_count'), 			// 数据总数，从服务端得到
+		    curr: page,
+			limit: 15,
+		    layout: ['count','prev','page','next','refresh', 'skip'],
+		    jump: function(obj,first){
+		      page = obj.curr;
+		      if(!first){
+		      	msg_list(page);
+		      }
+		    }
+		  });
+		});
+	});
+	
+	// 调用财务日志分页
+	function log_list(page){
+		var log_arr = {
+			uid:uid,
+			page:page,
+		}
+		var log_html = '';
+		$.ajax({
+			type:'post',
+			async:false, 
+			url:'{:url("log_list")}',
+			data:log_arr,
+			success:function(ret){
+				if(ret.code === 0){
+					log_html = '<div class="no_data">暂无数据</div>';
+				}else{
+					$.each(ret.log,function(k,v){
+						log_html += '<div style="padding-top: 15px;" class="my-py-list-one clear">';
+	                    log_html += '<span>'+v.record_type_text+'</span>';
+	                    log_html += '<span>'+v.remarks+'</span>';
+	                    log_html += '<span>'+v.finance+'</span>';
+	                    log_html += '<span class="sell">'+v.type_text+'</span>';
+	                    log_html += '<span>'+v.cur_name+'</span>';
+	                    log_html += '<span>'+v.create_date+'</span>';
+	                    log_html += '</div>';
+					})
+				}
+				$('#log_list').html(log_html);
+			}
+		});
+	}
+	
+	// 调用委托管理分页
+	function entrust_manage_list(page){
+		var entrust_manage_arr = {
+			uid:uid,
+			page:page,
+		}
+		var entrust_html = '';
+		$.ajax({
+			type:'post',
+			url:'{:url("entrust_list")}',
+			data:entrust_manage_arr,
+			success:function(ret){
+				if(ret.code === 0){
+					entrust_html = '<div class="no_data">暂无数据</div>';
+				}else{
+					$.each(ret.entrust_manage,function(k,v){
+						entrust_html += '<div style="padding-top: 15px;" class="my-py-list-one my-py-entrust-one clear">';
+	                    entrust_html += '<span style="width: 16%">'+v.start_date+'</span>';
+	                    entrust_html += '<span>'+v.cur_name+'</span>';
+	                    entrust_html += '<span style="width: 6%">'+v.trade_type_text+'</span>';
+	                    entrust_html += '<span>'+v.number+'</span>';
+	                    entrust_html += '<span>'+v.price+'</span>';
+	                    entrust_html += '<span>'+v.deal+'</span>';
+	                    entrust_html += '<span>'+v.no_deal+'</span>';
+	                    entrust_html += '<span>{eq name="lang" value="1"}'+v.trade_status_text_en+'{else/}'+v.trade_status_text+'{/eq}</span>';
+	                    entrust_html += '<span class="jiLao"><a onclick="cancel_commission(event,'+v.id+','+v.uid+')" href="javascript:;">{:lang("cancel")}</a></span>';
+	                    entrust_html += '</div>';
+					})
+				}
+				$('#entrust_manage_list').html(entrust_html);
+			}
+		});
+	}
+	
+	// 调用我的成交分页
+	function deal_list(page){
+		var deal_arr = {
+			uid:uid,
+			page:page,
+		}
+		var deal_html = '';
+		$.ajax({
+			type:'post',
+			async:false, 
+			url:'{:url("deal_list")}',
+			data:deal_arr,
+			success:function(ret){
+				if(ret.code === 0){
+					deal_html = '<div class="no_data">暂无数据</div>';
+				}else{
+					$.each(ret.deal,function(k,v){
+						deal_html += '<div style="padding-top: 15px;" class="my-py-list-one my-py-finance-one clear">';
+	                    deal_html += '<span>'+v.order+'</span>';
+	                    deal_html += '<span>'+v.cur_name+'</span>';
+	                    deal_html += '<span>'+v.done_date+'</span>';
+	                    deal_html += '<span>'+v.type_text+'</span>';
+	                    deal_html += '<span>'+v.deal_price+'</span>';
+	                    deal_html += '<span>'+v.order_number+'</span>';
+	                    deal_html += '<span>'+v.turnover+'</span>';
+	                    deal_html += '</div>';
+					})
+				}
+				$('#deal_list').html(deal_html);
+			}
+		});
+	}
+	
+	// 调用委托历史分页
+	function history_list(page){
+		var history_arr = {
+			uid:uid,
+			page:page,
+		}
+		var history_html = '';
+		$.ajax({
+			type:'post',
+			async:false, 
+			url:'{:url("history_list")}',
+			data:history_arr,
+			success:function(ret){
+				if(ret.code === 0){
+					history_html = '<div class="no_data">暂无数据</div>';
+				}else{
+					$.each(ret.history,function(k,v){
+						history_html += '<div class="my-py-list-one my-py-history-one clear">';
+	                    history_html += '<span style="width:16%">'+v.start_date+'</span>';
+	                    history_html += '<span>'+v.cur_name+'</span>';
+	                    history_html += '<span style="width:6%">'+v.trade_type_text+'</span>';
+	                    history_html += '<span>'+v.number+'</span>';
+	                    history_html += '<span>'+v.price+'</span>';
+	                    history_html += '<span>'+v.deal+'</span>';
+	                    history_html += '<span>'+v.no_deal+'</span>';
+	                    history_html += '<span class="jiLao"><a href="javascript:;">'+v.trade_status_text+'</a></span>';
+	                    history_html += '</div>';
+					})
+				}
+				$('#history_list').html(history_html);
+			}
+		});
+	}
+	
+	// 调用充值记录分页
+	function recharge_list(page){
+		var recharge_arr = {
+			uid:uid,
+			page:page,
+		}
+		var recharge_html = '';
+		$.ajax({
+			type:'post',
+			async:false, 
+			url:'{:url("recharge_list")}',
+			data:recharge_arr,
+			success:function(ret){
+				if(ret.code === 0){
+					recharge_html = '<div class="no_data">暂无数据</div>';
+				}else{
+					$.each(ret.recharge,function(k,v){
+						recharge_html += '<div class="eth-address eth-address-list clear">';
+		                recharge_html += '<div class="eth-b" style="width: 8%;">'+v.id+'</div>';
+		                recharge_html += '<div class="eth-b" style="width: 40%;">'+v.wallet_adress+'</div>';
+		                recharge_html += '<div class="eth-b" style="width: 8%;">'+v.cur_num+'</div>';
+		                recharge_html += '<div class="eth-b" style="width: 8%;">'+v.actual+'</div>';
+		                recharge_html += '<div class="eth-b" style="width: 20%;">'+v.create_date+'</div>';
+		                recharge_html += '<div class="eth-b" style="width: 8%;">'+v.recharge_status_text+'</div>';
+		                recharge_html += '</div>';
+					})
+				}
+				$('#recharge_list').html(recharge_html);
+			}
+		});
+	}
+	
+	// 调用提现记录分页
+	function withdraw_list(page){
+		var withdraw_arr = {
+			uid:uid,
+			page:page,
+		}
+		var withdraw_html = '';
+		$.ajax({
+			type:'post',
+			async:false, 
+			url:'{:url("withdraw_list")}',
+			data:withdraw_arr,
+			success:function(ret){
+				if(ret.code === 0){
+					withdraw_html = '<div class="no_data">暂无数据</div>';
+				}else{
+					$.each(ret.withdraw,function(k,v){
+						withdraw_html += '<div class="eth-address eth-address-list clear">';
+		                withdraw_html += '<div class="eth-b" style="width: 8%;">'+v.id+'</div>';
+		                withdraw_html += '<div class="eth-b" style="width: 40%;">'+v.wallet_adress+'</div>';
+		                withdraw_html += '<div class="eth-b" style="width: 8%;">'+v.cur_num+'</div>';
+		                withdraw_html += '<div class="eth-b" style="width: 8%;">'+v.actual+'</div>';
+		                withdraw_html += '<div class="eth-b" style="width: 20%;">'+v.create_date+'</div>';
+		                withdraw_html += '<div class="eth-b" style="width: 8%;">'+v.recharge_status_text+'</div>';
+		                withdraw_html += '</div>';
+					})
+				}
+				$('#withdraw_list').html(withdraw_html);
+			}
+		});
+	}
+	
+	// 调用系统消息分页
+	function msg_list(page){
+		var msg_arr = {
+			uid:uid,
+			page:page,
+		}
+		var msg_html = '';
+		$.ajax({
+			type:'post',
+			async:false, 
+			url:'{:url("msg_list")}',
+			data:msg_arr,
+			success:function(ret){
+				if(ret.code === 0){
+					msg_html = '<div class="no_data">暂无数据</div>';
+				}else{
+					$.each(ret.msg,function(k,v){
+						msg_html += '<div class="root-message clear" data="'+v.id+'">';
+		                msg_html += '<span class="root-message-title">{eq name="lang" value="1"}'+v.en_title+'{else/}'+v.title+'{/eq}</span>';
+		                msg_html += '<span class="root-message-time">'+v.create_date+'</span>';
+		                msg_html += '</div>';
+					})
+				}
+				$('#msg_list').html(msg_html);
+				
+				// 提交显示消息详情
+			    $('#msg_list .root-message').click(function () {
+			    	var msg_id = $(this).attr('data');
+			    	$.ajax({
+			    		type:'post',
+			    		url:'{:url("msg_detail")}',
+			    		data:{id:msg_id},
+			    		success:function(ret){
+			    			if(ret.code === 0){
+			    				shipWar(ret.msg);
+			    			}else{
+			    				$('.win-list').hide()
+			        			$('.winmsd').show()
+			        			// 写入消息信息
+			        			$('.w-title').html({eq name='lang' value='1'}ret.data.en_title{else/}ret.data.title{/eq});
+			        			$('.w-time').html(ret.data.create_date);
+			        			$('.w-content').html({eq name='lang' value='1'}ret.data.en_content{else/}ret.data.content{/eq});
+			    			}
+			    		}
+			    	});
+			    })
+			}
+		});
+	}
+</script>

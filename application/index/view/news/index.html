@@ -1,0 +1,38 @@
+{include file='common/top2' /}
+<style type='text/css'>
+.platform-content {height:26px;overflow:hidden;}
+</style>
+    <div style="padding-top: 100px;" class="py-center-list-3">
+        <div style="margin-top: 34px" class="py-list">
+            <ul style="height: 1030px;margin:0 auto;overflow: auto" class="py-all-list">
+                <div style="padding-top: 30px;" class="info-content-title">{:lang('platform')}</div>
+                <div class="black-line"></div>
+                {volist name='news.list' id='vo'}
+	                <div class="platform-list">
+	                    <div class="platform-title"><a href='{:url("detail")}?id={$vo.id}'>{eq name='lang' value='1'}{$vo.en_title}{else/}{$vo.title}{/eq}</a></div>
+	                    <div class="platform-content"><a href='{:url("detail")}?id={$vo.id}'>{eq name='lang' value='1'}{$vo.en_content}{else/}{$vo.content}{/eq}</a></div>
+	                    <div class="platform-time">{:lang('release')}：{$vo.create_time}</div>
+	                </div>
+                {/volist}
+                <div style="width:100%;margin: 0 auto; text-align:center;">
+                  <ul class="pagination" >
+                    {$news.page}
+                  </ul>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+{include file='common/bottom' /}
+<script>
+    $('.language').click(function () {
+        $('.choose-language').show(200)
+    })
+    $('.choose-language').mouseleave(function () {
+        $('.choose-language').hide(200)
+        return
+    }).click(function () {
+        $('.choose-language').hide(200)
+        return
+    })
+</script>

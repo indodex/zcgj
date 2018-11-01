@@ -1,0 +1,57 @@
+
+		<div class="index-warning full-bg">
+		    <div class="center-1200">
+		        <ul class="warn-text">
+		            <li class="warn-title">{:lang('hints')}：</li>
+		            <li>{:lang('hints_content')}</li>
+		        </ul>
+		    </div>
+		</div>
+		<div class="full-bg footer">
+		    <div class="center-1200 clear">
+		        <div class="logo-link clear">
+		            <div class="footer-logo">
+		                <img src="__IMG__/logo/logo.png" alt="">
+		            </div>
+		            <div class="footer-link">
+		                <ul>
+		                    <li><a href="{:url('News/luckyTeam')}">LUCKY KEY{:lang('team')}</a></li>
+		                    <li><a href="{:url('Market/index')}">{:lang('about_us')}</a></li>
+		                    <li>{:lang('contact_us')}</li>
+		                </ul>
+		            </div>
+		        </div>
+		        <div class="link-web">
+		            {eq name='$is_img.qq_img' value='1'}<img class='signal' src='{:config("QQ_QRCODE")}'/>{/eq}
+		            <span class='signal_text' {eq name='$is_img.qq_img' value='2'}style='display:block;margin-top:90px;'{/eq}>QQ:<br />{:config('QQ')}</span>
+		        </div>
+		        <div class="link-web">
+		            {eq name='$is_img.qq_group_img' value='1'}<img class='signal' src='{:config("QQ_GROUP_QRCODE")}'/>{/eq}
+		            <span class='signal_text' {eq name='$is_img.qq_group_img' value='2'}style='display:block;margin-top:90px;'{/eq}>QQ群:<br />{:config('QQ_GROUP')}</span>
+		        </div>
+		        <div class="link-web">
+		            {eq name='$is_img.wechat_img' value='1'}<img class='signal' src='{:config("WECHAT_QRCODE")}'/>{/eq}
+		            <span class='signal_text'  {eq name='$is_img.wechat_img' value='2'}style='display:block;margin-top:90px;'{/eq}>微信:<br />{:config('WECHAT')}</span>
+		        </div>
+		        <div class="link-web">
+		            {eq name='$is_img.wechat_group_img' value='1'}<img class='signal' src='{:config("WECHAT_GROUP_QRCODE")}'/>{/eq}
+		            <span class='signal_text'  {eq name='$is_img.wechat_group_img' value='2'}style='display:block;margin-top:90px;'{/eq}>微信群:<br />{:config('WECHAT_GROUP')}</span>
+		        </div>
+		    </div>
+		</div>
+		<script src="__JS__/jquery.peity.min.js"></script>
+		<script>
+		    $('.language').click(function () {
+		        $('.choose-language').show(200)
+		    })
+		    $('.choose-language').mouseleave(function () {
+		        $('.choose-language').hide(200)
+		        return
+		    }).click(function () {
+		        $('.choose-language').hide(200)
+		        return
+		    })
+		    $(".line").peity("line")
+		</script>
+	</body>
+</html>

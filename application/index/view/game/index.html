@@ -1,0 +1,284 @@
+{include file='common/top2' /}
+<style type='text/css'>
+.cursor {cursor:pointer;}
+</style>
+    <div class="all-winners">All  Winners</div>
+    <!-- 滚动 -->
+    <div class="roll-message">
+	    <div class="roll-mes-center">
+	        <div class="swiper-container">
+	            <div class="swiper-wrapper">
+	            	{volist name='game.game_record' id='vo'}
+	                	<div class="swiper-slide">{eq name='lang' value='1'}{$vo.en_text}{else/}{$vo.text}{/eq}</div>
+	                {/volist}
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!-- 滚动 -->
+    <div class="my-seed">
+        <div class='game_info'>
+            <span class="my-seed-title" style='color:yellow;'>{:lang('bonus_pool')}</span>
+            <span style='color:yellow;'>{empty name='$game.info.bonus'}--{else/}{$game.info.bonus} USDT{/empty}</span>
+        </div>
+        <div class='game_info'>
+            <span class="my-seed-title" style='color:yellow;'>{:lang('circulation')}</span>
+            <span style='color:yellow;'>{empty name='$game.info.seed_issue'}--{else/}{$game.info.seed_issue}{/empty}</span>
+        </div>
+        <div style='margin:0px auto;width:500px;'>
+            <p class="key-button"><p style='position:relative;top:-38px;float:left;padding-top:8px;width:{$game.info.percent}%;height:38px;background-color:#8666FF;border-radius:4px;'><p style='position:absolute;margin-left:220px;margin-top:-30px;font-size:18px;color:red;'>{$game.info.percent}%</p></p></p>
+        </div>
+        <span class="my-seed-num">
+         	{:lang('my_seed')}:  
+         	{empty name='$uid'}
+         		<span class='please_login cursor'>{:lang('login_view')}</span>
+         	{else/}
+         		{empty name='$game.user.seed'}
+         			0
+         		{else/}
+	         		{$game.user.seed} LUCKY SEED
+	         	{/empty}
+         	{/empty}
+        </span>
+        <span class="game-num">
+         	{:lang('game_rank')}:  
+         	{empty name='$uid'}
+         		<span class='please_login cursor'>{:lang('login_view')}</span>
+         	{else/}
+         		{empty name='$game.user.seed'}
+	         		{:lang('not_involved')}
+	         	{else/}
+	         		{$game.user.rank}
+	         	{/empty}
+         	{/empty}
+        </span>
+    </div>
+    <div class="buy-seed center-1200 clear">
+        <div class="buy-seed-tool">
+            <div>
+                <ul>
+                    <li>
+                        <p class="buy-input clear">
+                            <span class="buy-key-icon"><i class="iconfont icon-yuechi"></i></span>
+                            <span class="buy-input-num-in"><input type="text" placeholder="{:lang('buy_seed_input')}" /></span>
+                        </p>
+                    </li>
+                    <li>
+                        <button class="buy-seed-seed">{:lang('buy_seed')}</button>
+                    </li>
+                    <li>
+                        <button class="play-game">{:lang('join_game')}</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="buy-award">
+            <ul>
+                <li class="clear">
+                    <div class="buy-gift">
+                        <img src='__IMG__/youxizhongxin/lipin.png' alt="">
+                    </div>
+                    <div class="buy-gift-text">
+                        <p>{:lang('weighted_bonus_pool')}</p>
+                        <p>{empty name='$game.info.weighting'}--{else/}{$game.info.weighting} USDT{/empty}</p>
+                    </div>
+                </li>
+                <li class="clear">
+                    <div class="buy-gift">
+                        <img src='__IMG__/youxizhongxin/lipin.png' alt="">
+                    </div>
+                    <div class="buy-gift-text text-small">
+                        <p>{:lang('my_bonus')} </p>
+                        <p>
+                        	{empty name='$uid'}
+                        		<span class='please_login cursor'>{:lang('login_view')}</span>
+                        	{else/}
+	                        	{empty name='$game.user.my_bonus'}
+	                        		{:lang('not_involved')}
+	                        	{else/}
+	                        		{$game.user.my_bonus} USDT
+	                        	{/empty}
+	                        {/empty}
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <span class="my-seed-num">
+         	{:lang('buy')}
+        </span>
+    </div>
+    <div class="game-introduce center-1200">
+        <ul>
+            <li class="clear game-line-title">
+                <div style="width: 43%" class="line"></div>
+                <div style="width: 14%;text-align: center;top: -10px;font-size: 16px" class="line-text">{eq name='lang' value='1'}{$game.introduction.en_name}{else/}{$game.introduction.name}{/eq}</div>
+                <div style="width: 43%" class="line"></div>
+            </li>
+            <li class="game-introduce-text">
+                {eq name='lang' value='1'}{$game.introduction.en_content}{else/}{$game.introduction.content}{/eq}
+            </li>
+        </ul>
+    </div>
+</div>
+	<div class="find-reg-success buy-seed-model">
+	    <div class="model"></div>
+	    <div style="height: 240px;" class="find-success">
+	       <div style="padding-top: 10px">{:lang('confirm_buy')}</div>
+	       <form class='seed_post'>
+		       <ul>
+		           <li>
+		               <span class="buy-seed-title">{:lang('seed_num')}</span>
+		               <span><input id='seed_total' type="text" name='seed_total' /></span>
+		           </li>
+		           <li>
+		               <span class="buy-seed-title">{:lang('need_pay')}USDT</span>
+		               <span><input id='price_view' type='text' disabled="disabled" ></span>
+		           </li>
+		           <li>
+		               <span class="buy-seed-title">{:lang('tpwd')}</span>
+		               <span><input id='payment_password' type="password" name='payment_password' /></span>
+		           </li>
+		           <li style="width: 76%;padding-top: 20px" class="clear">
+		               <div class="true-buy cursor">
+		               	   <input id='price' type="hidden" name='price' value=''/>
+		               	   <input id='gid' type='hidden' name='gid' value='{$game.info.id}' />
+		                   <input type='hidden' name='uid' value='{$uid}' />
+		                   <span>{:lang('submit')}</span>
+		               </div>
+		               <div class="no-buy cursor">
+		                   <span>{:lang('cancel')}</span>
+		               </div>
+		           </li>
+		       </ul>
+		   </form>
+	    </div>
+	</div>
+	<div class="find-reg-success join-success">
+	    <div class="model"></div>
+	    <div class="find-success">
+	       	{:lang('success_join')}
+	    </div>
+	</div>
+{include file='common/bottom2' /}
+<script>
+    // 成功提示
+    function shipSuc (text) {
+        spop({
+            template: text,
+            position  : 'top-center',
+            style: 'success',
+            autoclose: 2000
+        });
+    }
+    
+    // 错误提示
+    function shipWar (text) {
+        spop({
+            template: text,
+            position  : 'top-center',
+            style: 'error',
+            autoclose: 2000
+        });
+    }
+    
+    // 请登陆
+    $('.please_login').click(function(){
+    	location.href = '{:url("publics/login")}';
+    });
+    
+    // 滚动消息
+    var swiper = new Swiper('.swiper-container', {
+        direction: 'vertical',
+        loop : true,
+        autoplay: {
+            delay: 1500,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+    });
+    
+	// 点击购买种子判断是否有游戏正在进行
+    $('.buy-seed-seed').click(function(){
+    	$.ajax({
+    		type:'post',
+    		url:'{:url("have_game")}',
+    		data:{id:1},
+    		success:function(ret){
+    			if(ret.code == 0){
+    				shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+    			}else{
+    				$('.buy-seed-model').show(300)
+        			$('body').css('overflow','hidden')
+    			}
+    		}
+    	});
+    })
+    
+    // 点击取消购买
+    $('.no-buy').click(function () {
+        $('.buy-seed-model').hide(300)
+        $('body').css('overflow','auto')
+        $('#seed_total').val('');
+        $('#price').val('');
+        $('#price_view').val('');
+        $('#payment_password').val('');
+    })
+    
+    // 点击参与游戏
+    $('.play-game').click(function () {
+        $('.join-success').show(300)
+        $('body').css('overflow','hidden')
+        setTimeout(function () {
+            $('.join-success').hide(300)
+            $('body').css('overflow','auto')
+        },1000)
+    })
+    
+    // 用户输入种子数量时计算出USDT价格
+    $('#seed_total').change(function(){
+    	var gid = $('#gid').val();
+    	var seed_total = $(this).val();
+    	$.ajax({
+    		type:'post',
+    		async:false,
+    		url:'{:url("seed_etc")}',
+    		data:{gid:gid,seed_total:seed_total},
+    		success:function(ret){
+    			if(ret.code === 0){
+    				shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+    			}else{
+    				$('#price').val(ret.data);
+    				$('#price_view').val(ret.data);
+    				$('#payment_password').val('');
+    			}
+    		}
+    	});
+    });
+    
+    // 点击购买种子
+    $('.true-buy').click(function(){
+    	var price = $('#price').val();
+		$.post('{:url("seed_buy")}',$('.seed_post').serialize()).success(function(ret){
+			if(ret.code === 0){
+				shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+				if(ret.url){
+					setTimeout(function(){
+						location.href = ret.url;
+					},1000);
+				}
+			}else{
+				shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+				$('.buy-seed-model').hide(300)
+		        $('body').css('overflow','auto')
+		        $('#seed_total').val('');
+		        $('#price').val('');
+		        $('#price_view').val('');
+		        $('#payment_password').val('');
+			}
+		});
+		return false;
+    });
+</script>

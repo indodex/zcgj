@@ -1,0 +1,131 @@
+{include file='common/top' /}
+	<div class="z-reg">
+        <div class="register-box">
+            <div style="padding-top: 22px" class="register-from">
+                <div class="register-content">
+                    <ul class="reg-from-in">
+                        <li style="position: relative;font-size: 22px" class="reg-remind">{:lang('retrieve')}</li>
+                        <li>
+                            <span class="reg-form-before">{:lang('tel')}</span>
+                            <span><input id="find-phone" class="in-input" type="text" name='account' /></span>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('new_pwd')}</span>
+                            <span><input id="new-pas" class="in-input" type="password" name='password' /></span>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('confirm_pwd')}</span>
+                            <span><input id="new-pas-true" class="in-input" type="password" name='repassword' /></span>
+                        </li>
+                        <li>
+                            <span class="reg-form-before">{:lang('verification')}</span>
+                            <span><input id="code-yz" style="width: 190px" class="in-input" type="text"></span>
+                            <span id='get_verification' data='' style="display: inline-block;font-size: 12px;padding: 0 22px;
+                            background: rgba(140,116,223,0.75); color: #fff;height: 34px;line-height: 34px;border-radius: 4px;cursor: pointer;">{:lang('get_verification_code')}</span>
+                        </li>
+                    </ul>
+                    <ul class="reg-rule">
+                        <li>
+                            <button id="find" class="next">{:lang('submit')}</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="find-reg-success">
+    <div class="model"></div>
+    <div class="find-success">
+        {eq name='lang' value='1'}Successfully retrieved, please {else/}找回成功，请{/eq}<span><a style="color:#b6a3ff" href="{:url('publics/login')}">{eq name='lang' value='1'}log in again{else/}重新登录{/eq}</a></span>
+    </div>
+</div>
+{include file="common/bottom" /}  
+<script>
+	// 成功提交框
+	function shipSuc (text) {
+        spop({
+            template: text,
+            position  : 'top-center',
+            style: 'success',
+            autoclose: 2000
+        });
+    }
+	// 错误提交框
+    function shipWar (text) {
+        spop({
+            template: text,
+            position  : 'top-center',
+            style: 'error',
+            autoclose: 2000
+        });
+    }
+	
+	// 提交判断
+    $('#find').click(function () {
+        let telReg = !!$('#find-phone').val().match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
+        if (telReg == false) {
+            shipWar({eq name='lang' value='1'}'Please input valid mobile phone number'{else/}'请输入有效的手机号'{/eq})
+            return}
+        if ($('#new-pas').val()==''){
+            shipWar({eq name='lang' value='1'}'Password can not be blank'{else/}'密码不能为空'{/eq})
+            return
+        }
+        $len = $('#new-pas').val().length;
+        if($len < 6 || $len > 32){
+            shipWar({eq name='lang' value='1'}'The password length must be between 6 and 32 bits'{else/}'密码长度需在6~32位之间'{/eq});
+            return}
+        if ($('#new-pas-true').val()!=$('#new-pas').val()){
+            shipWar({eq name='lang' value='1'}'Inconsistent entry password'{else/}'两次输入密码不一致'{/eq})
+            return
+        }
+        if ($('#code-yz').val()==''){
+            shipWar({eq name='lang' value='1'}'Verification code must be filled'{else/}'验证码不能为空'{/eq})
+            return
+        }
+        
+        var account = $('#find-phone').val();
+	    var password = $('#new-pas').val();
+	    var verify = $('#get_verification').attr('data');
+	    var user_verify = $('#code-yz').val();
+	    var arr = {
+	    	account:account,
+	    	password:password,
+	    	verify:verify,
+	    	user_verify:user_verify
+	    }
+	    $.ajax({
+	    	type:'post',
+	    	url:'{:url("forgetPwd")}',
+	    	data:arr,
+	    	success:function(ret){
+	    		if(ret.code === 0){
+	    			shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+	    		}else{
+	    			shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+	    			$('.find-reg-success').show()
+	    		}
+	    	}
+	    });
+    })
+    
+    // 获取验证码
+    $('#get_verification').click(function(){
+    	var account = $('#find-phone').val();
+    	$.ajax({
+    		type:'post',
+    		url:'{:url("get_verify")}',
+    		data:{account:account},
+    		success:function(ret){
+    			if(ret.code === 0){
+    				shipWar({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+    			}else{
+    				shipSuc({eq name='lang' value='1'}ret.en_msg{else/}ret.msg{/eq});
+    				$('#get_verification').attr('data',ret.data);
+    				alert(ret.data);
+    			}
+    		}
+    	});
+    });
+    
+</script>

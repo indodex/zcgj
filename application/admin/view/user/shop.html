@@ -1,0 +1,135 @@
+{include file="common/top" /}
+<style type='text/css'>
+.display_box {height:32px;line-height:32px;font-weight:bold;color:purple;}
+</style>
+</head><body class="no-skin">
+{include file="common/header" /}
+<div class="main-container" id="main-container"> 
+  <!-- #section:basics/sidebar --> 
+  {include file="common/sidebar" /} 
+  <!-- /section:basics/sidebar -->
+  <div class="main-content">
+    <div class="main-content-inner"> 
+      <!-- #section:basics/content.breadcrumbs -->
+      <div class="breadcrumbs" id="breadcrumbs">
+        <ul class="breadcrumb">
+          <li> <i class="ace-icon fa fa-home home-icon"></i> <a href="{:url('Index/index')}">{:config('WEB_SITE_NAME')}</a> </li>
+          <li> <a href="{:url('index')}">用户管理</a> </li>
+          <li class="active">{$pagename}</li>
+        </ul>
+        <!-- /.breadcrumb --> 
+      </div>
+      <!-- /section:basics/content.breadcrumbs -->
+      <div class="page-content">
+        <div class="page-header">
+          <h1> {$pagename} —— {$account}<a class="btn btn-sm btn-success" style="float:right; margin-right:10px;" href="{:url('index')}"><img src='__IMG__/back.png'/>&nbsp;返&nbsp;回&nbsp;</a></h1>
+        </div>
+          <!-- 添加用户 -->
+          <div class="row">
+            <div class="col-xs-12">
+              <form class="form-horizontal form-post" role="form">
+                
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right"> 公司法人 </label>
+                  <div class="col-sm-9">
+                    <div class="display_box">{$shop.contact}</div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right"> 法人证件 </label>
+                  <div class="col-sm-9">
+                    <div class="display_box">{$shop.contact_file}</div>
+                  </div>
+                </div>
+               	
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right"> 经营范围 </label>
+                  <div class="col-sm-9">
+                     <div class="display_box">{$shop.business}</div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right"> 联系电话 </label>
+                  <div class="col-sm-9">
+                     <div class="display_box">{$shop.tel}</div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right"> 公司详细地址 </label>
+                  <div class="col-sm-9">
+                     <div class="display_box">{$shop.address}</div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right"> 提交时间 </label>
+                  <div class="col-sm-9">
+                     <div class="display_box">{$shop.create_time}</div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right"> 营业执照 </label>
+                    <div class="col-sm-3 col-lg-3" style="padding-right: 0px;">
+                       	<img width="234px" height="153px" src='{$shop.license}' />
+                    </div>
+                </div>
+                
+                <div class="space-4"></div>
+                <div class="alert alert-danger" style="display:none;"></div>
+                <div class="clearfix form-actions">
+                  <div class="col-md-offset-3 col-md-9">
+                    {eq name='$shop.examine' value='1'}
+                    <a class="btn btn-danger" href="javascript:void(0);" onclick="do_examine({$shop.id},{$shop.uid},3)"> <i class="ace-icon fa fa-check bigger-110"></i> 审核不通过 </a>&nbsp;&nbsp;
+                    <a class="btn btn-info" href="javascript:void(0);" onclick="do_examine({$shop.id},{$shop.uid},2)"> <i class="ace-icon fa fa-check bigger-110"></i> 审核通过 </a>
+                    {/eq}
+                    
+                    {eq name='$shop.examine' value='3'}
+                    <a class="btn btn-info" href="javascript:void(0);" onclick="do_examine({$shop.id},{$shop.uid},2)"> <i class="ace-icon fa fa-check bigger-110"></i> 审核通过 </a>
+                    {/eq}
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.main-content -->
+  <div class="footer">
+    <div class="footer-inner">
+      <div class="footer-content"> <span class="bigger-120"> <span class="blue bolder">{:config('WEB_SITE_NAME')} </span>{$Think.WEB_VERSION}版 </span></div>
+    </div>
+  </div>
+  <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse"> <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i> </a> </div>
+<!-- /.main-container --> 
+<!-- basic scripts --> 
+{include file="common/bottom" /}
+<script src="__JS__/layer/layer.js"></script>
+<script type="text/javascript">
+$('a[href="/Admin/User/index"]').parents().filter('li').addClass('open active');
+
+// 审核
+function do_examine(id,uid,examine){
+	layer.confirm('确定要执行审核吗？',{
+		btn:['确定','关闭']
+	},function(){
+		$.post('{:url("shop")}',{id:id,uid:uid,examine:examine}).success(function(data){
+			if(data.code == 0){
+				layer.msg(data.msg,{icon:data.code,time:1000},function(){
+					location.href = self.location.href;
+				})
+			}else{
+				layer.msg(data.msg,{icon:data.code,time:1000},function(){
+					location.href = data.url;
+				});
+			}
+		});
+	});
+}
+</script> 
+</body>
+</html>

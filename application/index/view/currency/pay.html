@@ -1,0 +1,178 @@
+{include file='common/top2' /}
+<style type='text/css'>
+.cursor {cursor:pointer;}
+.img_plus {position:relative;top:35%;text-align:center;font-size:100px;color:gray;}
+</style>
+    <div style="padding-top: 100px;" class="py-center-list-3">
+        <div style="margin-top: 34px" class="py-list">
+            <ul style="height: 1030px;margin:0 auto;overflow: auto" class="py-all-list">
+                <div class="buy-in-eth clear">
+                    <div class="zi-line-middle"></div>
+                    <div class="buy-in-title">
+                        <p>{:lang('buy')} USDT</p>
+                        <p style="font-size: 13px;color: #666;">{:lang('order_number')}：{$datas.order}</p>
+                    </div>
+                </div>
+                <div style="padding-top: 40px" class="deal-num clear">
+                    <span>{:lang('quantity')}</span>
+                    <span>{:lang('amount')}</span>
+                    <span>{:lang('price')}</span>
+                </div>
+                <div class="deal-num clear">
+                    <span>{$datas.price * $datas.order_number}CNY</span>
+                    <span>{$datas.order_number}USDT</span>
+                    <span>{$datas.price}CNY</span>
+                </div>
+                <div class="how-pay clear">
+                    <div class="how-pay-left">
+                        <div class="how-pay-one clear">
+                            <div>
+                                <input type="radio" name="pay" value="0">
+                            </div>
+                            <div>
+                                <img src="__IMG__/gerenzhongxin/yinhangka.png" alt="">
+                            </div>
+                            <div class="bank-card-info">
+                                <p>{$datas.real_name}</p>
+                                <p>{$datas.bank_number}</p>
+                                <p>{$datas.bank_name}</p>
+                            </div>
+                        </div>
+                        <div class="how-pay-one clear">
+                            <div>
+                                <input type="radio" name="pay" value="2">
+                            </div>
+                            <div>
+                                <img src="__IMG__/gerenzhongxin/zhifubao.png" alt="">
+                            </div>
+                            <div class="bank-card-info">
+                                <p style="padding-top: 7px">{$datas.real_name}</p>
+                                <p>{$datas.alipay_accout}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="how-pay-right">
+                        <div class="how-pay-one clear">
+                            <div>
+                                <input type="radio" name="pay" value="1">
+                            </div>
+                            <div>
+                                <img src="__IMG__/gerenzhongxin/weixin.png" alt="">
+                            </div>
+                            <div class="bank-card-info">
+                                <p style="padding-top: 7px">{$datas.real_name}</p>
+                                <p>{$datas.wechat_accout}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="how-pay clear">
+                    <div class="how-pay-left">
+                        <div class="pay-img cursor" id="test1"><div class='img_plus'>+</div><img width='100%;' height='240px' style='display:none;' src="" name="link" /></div>
+                    </div>
+                    <div class="how-pay-right">
+                        <div class="tool-pay-or">
+                            <span><button class="btn-revoke">{:lang('cancel')}{:lang('order')}</button></span>
+                            <input type="text" name="link" hidden="">
+                            <input type="text" name="id" hidden="" value="{$datas.id}">
+                            <span><button style="background: #8666FF" class="btn-submit">{:lang('submit')}</button></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pay-remind">
+                    <div class="pay-remind-title">
+                        <span class="iconfont icon-tixing"></span>
+                        {:lang('transaction_reminder')}
+                    </div>
+                    <div class="pay-remind-list">
+                        <p>1.{:lang('notice_1')}</p>
+                        <p>2.{:lang('notice_2')}</p>
+                    </div>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+{include file='common/bottom' /}
+<script src="__JS__/layer/layer.js"></script>
+<script>
+    $('.language').click(function () {
+        $('.choose-language').show(200)
+    })
+    $('.choose-language').mouseleave(function () {
+        $('.choose-language').hide(200)
+        return
+    }).click(function () {
+        $('.choose-language').hide(200)
+        return
+    });
+
+    layui.use('upload', function(){
+      var upload = layui.upload;
+      //执行实例
+      var uploadInst = upload.render({
+        elem: '#test1' //绑定元素
+        ,url: "{:url('Publics/upload')}" //上传接口
+        ,data: {type: 'voucher'}
+        ,done: function(res){
+          // console.log(res)
+          //上传完毕回调
+          if(res.status == 0){
+            layer.msg(res.info, {icon: res.status,time: 1500});
+          }else{
+            // // 显示img里边的图片
+            // $('#url-view').show();
+            //返回路径
+            $("input[name=link]").val(res.msg);
+            //给IMG返回路径
+            $("img[name=link]").attr("src",res.msg)
+            $('.img_plus').hide();
+            $('#test1 img').show();
+          }
+        }
+      });
+    });
+	
+	// 点击提交购买
+    $('.btn-submit').click(function(){
+        var id = $("input[name=id]").val();
+        var voucher = $("input[name=link]").val();
+        var payment_method = $("input[name='pay']:checked").val();
+        if(payment_method && voucher){
+            $.post("{:url('pay')}",{'id':id,'voucher':voucher,'payment_method':payment_method}).success(function(data) {
+              if (data.status === 0) {
+                layer.msg(data.info, {time: 1500});
+              } else {
+                  layer.msg('交易成功', {time: 1500},function(){
+                    location.href = "{:url('Currency/index')}";
+                  });
+               }
+            });
+        }else{
+            layer.msg('选择交易方式,并上传图片', {time: 1500});
+        }
+
+    });
+	
+	// 点击取消订单
+    $('.btn-revoke').click(function(){
+    	layer.confirm('确定要取消订单吗?',{
+    		btn:['确定','关闭']
+    	},function(){
+    		var id = $("input[name=id]").val();
+	        $.post("{:url('revokeActive')}",{'id':id}).success(function(data) {
+	          if (data.status === 0) {
+	            layer.msg(data.info, {time: 1500});
+	          } else {
+	              layer.msg('撤销成功', {time: 1500},function(){
+	                location.href = "{:url('Currency/index')}";
+	              });
+	           }
+	        });
+    	});
+    });
+</script>
+</body>
+</html>

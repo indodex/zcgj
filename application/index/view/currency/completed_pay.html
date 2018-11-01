@@ -1,0 +1,94 @@
+{include file='common/top2' /}
+    <div style="padding-top: 100px;" class="py-center-list-3">
+        <div style="margin-top: 34px" class="py-list">
+            <ul style="height: 1030px;margin:0 auto;overflow: auto" class="py-all-list">
+                <div class="buy-in-eth clear">
+                    <div class="zi-line-middle"></div>
+                    <div class="buy-in-title">
+                        <p>买入USDT</p>
+                        <p style="font-size: 13px;color: #666;">订单编号：{$order.order}</p>
+                    </div>
+                </div>
+                <div style="padding-top: 40px" class="deal-num clear">
+                    <span>交易金额</span>
+                    <span>数量</span>
+                    <span>价格</span>
+                </div>
+                <div class="deal-num clear">
+                    <span>{$order.price * $order.order_number}CNY</span>
+                    <span>{$order.order_number}USDT</span>
+                    <span>{$order.price}CNY</span>
+                </div>
+                <div style="width: 80%;" class="how-pay clear">
+                    <div class="how-pay-left">
+                        <div class="how-pay-one clear">
+                            <div>
+                                {switch name="order.payment_method" }
+                                    {case value="0"}<img src="__IMG__/gerenzhongxin/yinhangka.png" alt="">{/case}
+                                    {case value="1"}<img src="__IMG__/gerenzhongxin/weixin.png" alt="">{/case}
+                                    {case value="2"}<img src="__IMG__/gerenzhongxin/zhifubao.png" alt="">{/case}
+                                {/switch}
+                            </div>
+                            <div class="bank-card-info">
+                                <p style="padding-top: 7px">{$order.real_name}</p>
+                                {switch name="order.payment_method" }
+                                    {case value="0"}<p>{$order.bank_number}</p><p>{$order.bank_name}</p>{/case}
+                                    {case value="1"}<p>{$order.wechat_accout}</p>{/case}
+                                    {case value="2"}<p>{$order.alipay_accout}</p>{/case}
+                                {/switch}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="how-pay clear">
+                    <div style="text-align: center" class="tool-pay-or">
+                        <span><button>已完成</button></span>
+                        <span class="look jiLao small-text"><a href="javascript:;">查看支付截图</a></span>
+                    </div>
+                </div>
+
+                <div class="pay-remind">
+                    <div class="pay-remind-title">
+                        <span class="iconfont icon-tixing"></span>
+                        交易提醒
+                    </div>
+                    <div class="pay-remind-list">
+                        <p>1.您的汇款将直接进入对方账户，交易过程中买房出售的数字资产将由平台托管保护</p>
+                        <p>2.请在规定时间内完成付款，并务必点击“我已付款”，卖方确认收款后，系统会将数字资产划转到您的账户</p>
+                    </div>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="black-model"
+     style="width: 100%;height: 100%;top: 0;left: 0;background: rgba(0,0,0,0.25);z-index: 8;position: fixed;display:none;"></div>
+<div style="background: #fff;padding:0;padding-top:20px ;z-index: 9;" class="placard">
+    <img src="{$order.voucher}" alt="">
+</div>
+{include file='common/bottom' /}
+<script>
+    $('.language').click(function () {
+        $('.choose-language').show(200)
+    })
+    $('.choose-language').mouseleave(function () {
+        $('.choose-language').hide(200)
+        return
+    }).click(function () {
+        $('.choose-language').hide(200)
+        return
+    })
+    $('.look').click(function () {
+        $('.placard').show(300)
+        $('.black-model').show()
+    })
+    $('.placard').click(function () {
+        $(this).hide(300)
+        $('.black-model').hide(300)
+    })
+    $('.black-model').click(function () {
+        $('.placard').hide(300)
+        $('.black-model').hide(300)
+    })
+</script>

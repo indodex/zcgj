@@ -1,0 +1,47 @@
+{include file="common/top2" /}
+    <div class="py-center-list-3">
+        <div class="py-list">
+            <ul style="height: 900px;overflow: auto;padding-top: 20px;" class="py-all-list">
+                <li class="one-list clear">
+                    <div>{:lang('currency')}</div>
+                    <div>{:lang('new_deal_price')}</div>
+                    <div>{:lang('24H_volume')}</div>
+                    <div>{:lang('24H_turnover')}</div>
+                    <div>{:lang('ups_downs')}</div>
+                    <div>{:lang('price_trend_3')}</div>
+                    <div>{:lang('operating')}</div>
+                </li>
+                {volist name="curdatas" id="vo"}
+                <li class="one-list one-list-content clear">
+                    <div><span class="what-bi"><img src="{$vo.icon}" alt="" width="40px;" height="40px;" style="margin:10px 0 0 10px; "></span>{$vo.name}</div>
+                    <div class="increase">￥{$vo.price_usd} <span class="iconfont icon--xiangshangjiantou"></span></div>
+                    <div>{$vo.percent_change_24h}</div>
+                    <div>￥{$vo.24vol}</div>
+                    <!--{gt name="vo.percent_change_24h" value="0"}
+                    	<div class="lower">{$vo.percent_change_24h}%</div>
+                    {else/}
+                    	<div class="increase">{$vo.percent_change_24h}%</div>
+                    {/gt}-->
+                    <div class='{$vo.day_rise_fall.day_rise_fall_color}'>{$vo.day_rise_fall.day_rise_fall}{neq name='$vo.day_rise_fall.day_rise_fall' value='-'}%{/neq}</div>
+                    <div><a href="{:url('detail')}?id={$vo.id}"><span data-peity='{ "fill": ["#fff"],"stroke": ["#f74d53"]}' class="line">5,3,9,6,5,9,7,3,5,2,8,1,11,2,12,9,4</span></a></div>
+                    <div class="deal"><a href="{:url('sell')}?id={$vo.id}">{:lang('go_trade')}</a></div>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+</div>
+{include file="common/bottom" /}
+<script>
+    $('.language').click(function () {
+        $('.choose-language').show(200)
+    })
+    $('.choose-language').mouseleave(function () {
+        $('.choose-language').hide(200)
+        return
+    }).click(function () {
+        $('.choose-language').hide(200)
+        return
+    })
+    $(".line").peity("line")
+</script>
